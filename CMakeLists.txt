@@ -18,6 +18,7 @@ add_executable(NimbleApp
 	ext/nanovg/src/stb_truetype.h
 
 	src/scratch2.cpp
+	src/layout.cpp
 
 	src/main.cpp
 )
@@ -25,6 +26,7 @@ add_executable(NimbleApp
 include_directories(
 	ext/nanovg/src/
 	ext/scratch2/scratch2/
+	ext/layout/
 )
 
 target_link_libraries(NimbleApp

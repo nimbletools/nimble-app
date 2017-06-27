@@ -7,3 +7,6 @@
 [submodule "ext/scratch2"]
 	path = ext/scratch2
 	url = https://github.com/codecat/scratch2.git
+[submodule "ext/layout"]
+	path = ext/layout
+	url = https://github.com/randrew/layout.git

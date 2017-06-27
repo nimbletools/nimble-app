@@ -13,6 +13,8 @@
 #define NANOVG_GL3_IMPLEMENTATION
 #include <nanovg_gl.h>
 
+#include <layout.h>
+
 static bool _invalidated = true;
 
 class Button
@@ -133,6 +135,36 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 
 int main()
 {
+	/*
+	lay_context lay;
+	lay_init_context(&lay);
+
+	lay_id root = lay_item(&lay);
+	lay_set_size_xy(&lay, root, 1024, 768);
+	lay_set_contain(&lay, root, LAY_ROW);
+
+	lay_id master_list = lay_item(&lay);
+	lay_set_size_xy(&lay, master_list, 400, 0);
+	lay_set_behave(&lay, master_list, LAY_VFILL);
+	lay_set_contain(&lay, master_list, LAY_COLUMN);
+	lay_insert(&lay, root, master_list);
+
+	lay_id content_view = lay_item(&lay);
+	lay_set_behave(&lay, content_view, LAY_FILL);
+
+	lay_run_context(&lay);
+	lay_vec4 master_list_rect = lay_get_rect(&lay, master_list);
+	lay_vec4 content_view_rect = lay_get_rect(&lay, content_view);
+
+	printf("master: %d,%d -- %d,%d\n", master_list_rect[0], master_list_rect[1], master_list_rect[2], master_list_rect[3]);
+	printf("content: %d,%d -- %d,%d\n", content_view_rect[0], content_view_rect[1], content_view_rect[2], content_view_rect[3]);
+
+	//lay_reset_context(&lay);
+	lay_destroy_context(&lay);
+
+	return 0;
+	*/
+
 	if (!glfwInit()) {
 		printf("Glfw failed\n");
 		return -1;
