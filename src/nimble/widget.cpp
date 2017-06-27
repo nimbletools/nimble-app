@@ -5,10 +5,9 @@
 #include <layout.h>
 #include <nanovg.h>
 
-na::Widget::Widget(Application* app, Widget* parent)
+na::Widget::Widget(Application* app)
 {
 	m_app = app;
-	m_parent = parent;
 }
 
 na::Widget::~Widget()
@@ -84,6 +83,7 @@ lay_id na::Widget::BeginLayout(lay_id parent)
 glm::ivec4 na::Widget::GetLayout()
 {
 	assert(m_layID != 0);
+
 	lay_vec4 rect = lay_get_rect(m_app->m_layout, m_layID);
 	return glm::ivec4(rect[0], rect[1], rect[2], rect[3]);
 }
@@ -106,6 +106,16 @@ void na::Widget::Draw(NVGcontext* vg)
 		}
 		child->Draw(vg);
 	}
+}
+
+void na::Widget::AddChild(Widget* child)
+{
+	assert(child->m_parent == nullptr);
+
+	child->m_parent = this;
+	m_children.add(child);
+
+	InvalidateLayout();
 }
 
 void na::Widget::SetVisible(bool visible)

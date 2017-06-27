@@ -32,25 +32,25 @@ namespace na
 		Justify,
 	};
 
-	enum class WidgetAnchor
+	enum WidgetAnchor
 	{
-		None = 0,
+		AnchorNone = 0,
 
-		Left = 0x020,
-		Right = 0x080,
-		Top = 0x040,
-		Bottom = 0x100,
+		AnchorLeft = 0x020,
+		AnchorRight = 0x080,
+		AnchorTop = 0x040,
+		AnchorBottom = 0x100,
 
-		FillH = Left | Right,
-		FillV = Top | Bottom,
-		Fill = Left | Right | Top | Bottom,
+		AnchorFillH = AnchorLeft | AnchorRight,
+		AnchorFillV = AnchorTop | AnchorBottom,
+		AnchorFill = AnchorLeft | AnchorRight | AnchorTop | AnchorBottom,
 	};
 
 	class Widget
 	{
 	private:
 		Application* m_app;
-		Widget* m_parent;
+		Widget* m_parent = nullptr;
 
 		bool m_visible = true;
 
@@ -60,11 +60,11 @@ namespace na
 		WidgetDirection m_layDir = WidgetDirection::None;
 		WidgetModel m_layModel = WidgetModel::Layout;
 		WidgetJustify m_layJustify = WidgetJustify::Start;
-		WidgetAnchor m_layAnchor = WidgetAnchor::None;
+		WidgetAnchor m_layAnchor = AnchorNone;
 		bool m_layWrap = false;
 
 	protected:
-		Widget(Application* app, Widget* parent);
+		Widget(Application* app);
 		virtual ~Widget();
 
 		virtual void InvalidateLayout();
@@ -78,6 +78,8 @@ namespace na
 	public:
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);
+
+		virtual void AddChild(Widget* child);
 
 		inline bool IsVisible() { return m_visible; }
 		virtual void SetVisible(bool visible);
@@ -93,6 +95,7 @@ namespace na
 
 		inline WidgetAnchor GetLayoutAnchor() { return m_layAnchor; }
 		virtual void SetLayoutAnchor(WidgetAnchor anchor);
+		inline void SetLayoutAnchor(int anchor) { SetLayoutAnchor((WidgetAnchor)anchor); }
 
 		inline bool IsLayoutWrapping() { return m_layWrap; }
 		virtual void SetLayoutWrapping(bool wrap);

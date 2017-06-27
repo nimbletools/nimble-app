@@ -4,8 +4,8 @@
 #include <layout.h>
 #include <nanovg.h>
 
-na::RectWidget::RectWidget(Application* app, Widget* parent)
-	: Widget(app, parent)
+na::RectWidget::RectWidget(Application* app)
+	: Widget(app)
 {
 }
 

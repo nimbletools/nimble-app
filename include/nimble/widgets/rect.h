@@ -12,7 +12,7 @@ namespace na
 		glm::vec4 m_color;
 
 	public:
-		RectWidget(Application* app, Widget* parent);
+		RectWidget(Application* app);
 		virtual ~RectWidget();
 
 		virtual void DoLayout(lay_context* l, lay_id parent);

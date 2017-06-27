@@ -8,10 +8,19 @@ class ExampleApplication : public Application
 public:
 	ExampleApplication()
 	{
-		RectWidget* root = new RectWidget(this, nullptr);
+		RectWidget* root = new RectWidget(this);
 		root->SetLayoutDirection(WidgetDirection::Horizontal);
-		root->SetLayoutAnchor(WidgetAnchor::Fill);
+		root->SetLayoutAnchor(AnchorFill);
 		root->SetColor(glm::vec4(0.2f, 0, 0, 1));
+
+		RectWidget* list = new RectWidget(this);
+		list->SetLayoutDirection(WidgetDirection::Vertical);
+		list->SetLayoutAnchor(AnchorLeft | AnchorFillV);
+		list->SetSize(glm::ivec2(300, 0));
+		list->SetColor(glm::vec4(0, 0.2f, 0, 1));
+
+		root->AddChild(list);
+
 		SetRoot(root);
 	}
 
