@@ -9,8 +9,9 @@ public:
 	ExampleApplication()
 	{
 		RectWidget* root = new RectWidget(this, nullptr);
-		root->SetSize(glm::ivec2(32, 32));
-		root->SetColor(glm::vec4(1, 0, 0, 1));
+		root->SetLayoutDirection(WidgetDirection::Horizontal);
+		root->SetLayoutAnchor(WidgetAnchor::Fill);
+		root->SetColor(glm::vec4(0.2f, 0, 0, 1));
 		SetRoot(root);
 	}
 
