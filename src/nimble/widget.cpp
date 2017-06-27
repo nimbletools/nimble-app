@@ -91,6 +91,9 @@ glm::ivec4 na::Widget::GetLayout()
 void na::Widget::DoLayout(lay_context* l, lay_id parent)
 {
 	for (Widget* child : m_children) {
+		if (!child->m_visible) {
+			continue;
+		}
 		child->DoLayout(l, parent);
 	}
 }
@@ -98,6 +101,9 @@ void na::Widget::DoLayout(lay_context* l, lay_id parent)
 void na::Widget::Draw(NVGcontext* vg)
 {
 	for (Widget* child : m_children) {
+		if (!child->m_visible) {
+			continue;
+		}
 		child->Draw(vg);
 	}
 }
