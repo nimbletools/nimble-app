@@ -25,6 +25,9 @@ namespace na
 		bool m_invalidatedLayout = true;
 		bool m_invalidatedRendering = true;
 
+		int m_width = 1024;
+		int m_height = 768;
+
 	public:
 		Application();
 		virtual ~Application();

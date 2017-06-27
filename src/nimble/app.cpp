@@ -58,6 +58,7 @@ void na::Application::DoLayout()
 
 	lay_reset_context(m_layout);
 	lay_id root = lay_item(m_layout);
+	lay_set_size_xy(m_layout, root, m_width, m_height);
 
 	if (m_root != nullptr) {
 		m_root->DoLayout(m_layout, root);
@@ -73,7 +74,7 @@ void na::Application::Draw()
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	nvgBeginFrame(m_nvg, 1024, 768, 1.0f);
+	nvgBeginFrame(m_nvg, m_width, m_height, 1.0f);
 
 	if (m_root != nullptr) {
 		m_root->Draw(m_nvg);
@@ -138,7 +139,7 @@ void na::Application::InitializeRendering()
 
 void na::Application::InitializeWindow()
 {
-	m_window = glfwCreateWindow(1024, 768, "Nimble App", nullptr, nullptr);
+	m_window = glfwCreateWindow(m_width, m_height, "Nimble App", nullptr, nullptr);
 	if (m_window == nullptr) {
 		printf("No window\n");
 		CleanupRendering();
