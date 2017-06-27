@@ -41,9 +41,7 @@ void na::Application::Run()
 	InitializeWindow();
 
 	while (!glfwWindowShouldClose(m_window)) {
-		if (IsInvalidated()) {
-			Frame();
-		}
+		Frame();
 
 		if (IsInvalidated()) {
 			glfwPollEvents();
@@ -55,6 +53,9 @@ void na::Application::Run()
 
 void na::Application::DoLayout()
 {
+	static int _layoutCount = 0;
+	printf("Layout %d\n", _layoutCount++);
+
 	lay_reset_context(m_layout);
 	lay_id root = lay_item(m_layout);
 
@@ -65,22 +66,8 @@ void na::Application::DoLayout()
 	lay_run_context(m_layout);
 }
 
-void na::Application::Frame()
+void na::Application::Draw()
 {
-	if (m_invalidatedLayout) {
-		static int _layoutCount = 0;
-		printf("Layout %d\n", _layoutCount++);
-
-		m_invalidatedLayout = false;
-		DoLayout();
-		m_invalidatedRendering = true;
-	}
-
-	if (!m_invalidatedRendering) {
-		return;
-	}
-	m_invalidatedRendering = false;
-
 	static int _renderCount = 0;
 	printf("Render %d\n", _renderCount++);
 
@@ -95,6 +82,20 @@ void na::Application::Frame()
 	nvgEndFrame(m_nvg);
 
 	glfwSwapBuffers(m_window);
+}
+
+void na::Application::Frame()
+{
+	if (m_invalidatedLayout) {
+		m_invalidatedLayout = false;
+		DoLayout();
+		m_invalidatedRendering = true;
+	}
+
+	if (m_invalidatedRendering) {
+		m_invalidatedRendering = false;
+		Draw();
+	}
 }
 
 void na::Application::InvalidateLayout()

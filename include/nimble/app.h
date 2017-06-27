@@ -31,6 +31,7 @@ namespace na
 
 		virtual void Run();
 		virtual void DoLayout();
+		virtual void Draw();
 		virtual void Frame();
 
 		virtual void InvalidateLayout();
