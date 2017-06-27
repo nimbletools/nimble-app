@@ -11,6 +11,8 @@ namespace na
 {
 	class Application
 	{
+	friend class Widget;
+
 	protected:
 		lay_context* m_layout = nullptr;
 		GLFWwindow* m_window = nullptr;
@@ -37,10 +39,11 @@ namespace na
 		virtual void Draw();
 		virtual void Frame();
 
-		virtual void InvalidateLayout();
-		virtual void InvalidateRendering();
+		virtual void SetRoot(Widget* root);
 
 		virtual bool IsInvalidated();
+		virtual void InvalidateLayout();
+		virtual void InvalidateRendering();
 
 	protected:
 		virtual void InitializeLayout();

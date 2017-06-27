@@ -1,10 +1,17 @@
 #include <nimble/app.h>
+#include <nimble/widgets/rect.h>
 
-class ExampleApplication : public na::Application
+using namespace na;
+
+class ExampleApplication : public Application
 {
 public:
 	ExampleApplication()
 	{
+		RectWidget* root = new RectWidget(this, nullptr);
+		root->SetSize(glm::ivec2(32, 32));
+		root->SetColor(glm::vec4(1, 0, 0, 1));
+		SetRoot(root);
 	}
 
 	~ExampleApplication()

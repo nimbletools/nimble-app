@@ -99,6 +99,17 @@ void na::Application::Frame()
 	}
 }
 
+void na::Application::SetRoot(Widget* root)
+{
+	m_root = root;
+	InvalidateLayout();
+}
+
+bool na::Application::IsInvalidated()
+{
+	return m_invalidatedLayout || m_invalidatedRendering;
+}
+
 void na::Application::InvalidateLayout()
 {
 	m_invalidatedLayout = true;
@@ -107,11 +118,6 @@ void na::Application::InvalidateLayout()
 void na::Application::InvalidateRendering()
 {
 	m_invalidatedRendering = true;
-}
-
-bool na::Application::IsInvalidated()
-{
-	return m_invalidatedLayout || m_invalidatedRendering;
 }
 
 void na::Application::InitializeLayout()
