@@ -18,6 +18,7 @@ public:
 		list->SetLayoutAnchor(AnchorLeft | AnchorFillV);
 		list->SetSize(glm::ivec2(300, 0));
 		list->SetColor(glm::vec4(0, 0.2f, 0, 1));
+		list->SetMargin(Bounds(6));
 
 		root->AddChild(list);
 

@@ -24,7 +24,7 @@ void na::Widget::InvalidateRendering()
 	m_app->InvalidateRendering();
 }
 
-void na::Widget::SetContainerFlags()
+void na::Widget::BeginLayoutContainerFlags()
 {
 	assert(m_layID != 0);
 
@@ -61,19 +61,32 @@ void na::Widget::SetContainerFlags()
 	lay_set_contain(m_app->m_layout, m_layID, flags);
 }
 
-void na::Widget::SetBehaveFlags()
+void na::Widget::BeginLayoutBehaveFlags()
 {
 	assert(m_layID != 0);
 
 	lay_set_behave(m_app->m_layout, m_layID, (uint32_t)m_layAnchor);
 }
 
+void na::Widget::BeginLayoutMargin()
+{
+	assert(m_layID != 0);
+
+	int left = m_margin.m_left;
+	int top = m_margin.m_top;
+	int right = m_margin.m_right;
+	int bottom = m_margin.m_bottom;
+
+	lay_set_margins_ltrb(m_app->m_layout, m_layID, left, top, right, bottom);
+}
+
 lay_id na::Widget::BeginLayout(lay_id parent)
 {
 	m_layID = lay_item(m_app->m_layout);
 
-	SetContainerFlags();
-	SetBehaveFlags();
+	BeginLayoutContainerFlags();
+	BeginLayoutBehaveFlags();
+	BeginLayoutMargin();
 
 	lay_insert(m_app->m_layout, parent, m_layID);
 
@@ -164,4 +177,12 @@ void na::Widget::SetLayoutWrapping(bool wrap)
 		InvalidateLayout();
 	}
 	m_layWrap = wrap;
+}
+
+void na::Widget::SetMargin(const Bounds &margin)
+{
+	if (m_margin != margin) {
+		InvalidateLayout();
+	}
+	m_margin = margin;
 }

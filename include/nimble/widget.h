@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.h"
+#include "bounds.h"
 
 typedef uint32_t lay_id;
 
@@ -63,6 +64,8 @@ namespace na
 		WidgetAnchor m_layAnchor = AnchorNone;
 		bool m_layWrap = false;
 
+		Bounds m_margin;
+
 	protected:
 		Widget(Application* app);
 		virtual ~Widget();
@@ -70,8 +73,9 @@ namespace na
 		virtual void InvalidateLayout();
 		virtual void InvalidateRendering();
 
-		virtual void SetContainerFlags();
-		virtual void SetBehaveFlags();
+		virtual void BeginLayoutContainerFlags();
+		virtual void BeginLayoutBehaveFlags();
+		virtual void BeginLayoutMargin();
 		virtual lay_id BeginLayout(lay_id parent);
 		virtual glm::ivec4 GetLayout();
 
@@ -99,5 +103,8 @@ namespace na
 
 		inline bool IsLayoutWrapping() { return m_layWrap; }
 		virtual void SetLayoutWrapping(bool wrap);
+
+		inline Bounds GetMargin() { return m_margin; }
+		virtual void SetMargin(const Bounds &margin);
 	};
 }
