@@ -10,3 +10,6 @@
 [submodule "ext/layout"]
 	path = ext/layout
 	url = https://github.com/randrew/layout.git
+[submodule "ext/glm"]
+	path = ext/glm
+	url = https://github.com/g-truc/glm.git

@@ -2,19 +2,6 @@
 
 #include <s2list.h>
 
-#include <GL/glew.h>
-#ifdef __APPLE__
-#define GLFW_INCLUDE_GLCOREARB
-#endif
-#define GLFW_INCLUDE_GLEXT
-#include <GLFW/glfw3.h>
-
-#include <nanovg.h>
-#define NANOVG_GL3_IMPLEMENTATION
-#include <nanovg_gl.h>
-
-#include <layout.h>
-
 static bool _invalidated = true;
 
 class Button
@@ -104,35 +91,6 @@ public:
 
 static s2::list<Button*> _buttons;
 
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	for (Button* b : _buttons) {
-		if (!b->Contains((int)xpos, (int)ypos)) {
-			if (b->m_hovering) {
-				b->MouseLeave();
-			}
-			continue;
-		}
-		if (!b->m_hovering) {
-			b->MouseEnter();
-		}
-	}
-}
-
-static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-{
-	for (Button* b : _buttons) {
-		if (!b->m_hovering) {
-			continue;
-		}
-		if (action == GLFW_PRESS) {
-			b->MouseDown(button);
-		} else if (action == GLFW_RELEASE) {
-			b->MouseUp(button);
-		}
-	}
-}
-
 int main()
 {
 	/*
@@ -165,70 +123,10 @@ int main()
 	return 0;
 	*/
 
-	if (!glfwInit()) {
-		printf("Glfw failed\n");
-		return -1;
-	}
-
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_SAMPLES, 4);
-
-	GLFWwindow* window = glfwCreateWindow(1024, 768, "Nimble App", nullptr, nullptr);
-	if (window == nullptr) {
-		printf("No windpw\n");
-		glfwTerminate();
-		return -1;
-	}
-
-	glfwSetCursorPosCallback(window, cursor_position_callback);
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
-	glfwMakeContextCurrent(window);
-
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK) {
-		printf("Glew failed\n");
-		glfwTerminate();
-		return -1;
-	}
-	glGetError();
-
-	NVGcontext* vg = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
-	if (vg == nullptr) {
-		printf("Nvg failed\n");
-		glfwTerminate();
-		return -1;
-	}
-
 	_buttons.add(new Button(100, 100));
 	_buttons.add(new Button(100, 150));
 	_buttons.add(new Button(100, 200));
 	_buttons.add(new Button(100, 250));
-
-	while (!glfwWindowShouldClose(window)) {
-		if (_invalidated) {
-			static int _frameCount = 0;
-			printf("Begin frame %d\n", _frameCount++);
-
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			nvgBeginFrame(vg, 1024, 768, 1.0f);
-
-			for (Button* b : _buttons) {
-				b->Draw(vg);
-			}
-
-			nvgEndFrame(vg);
-
-			glfwSwapBuffers(window);
-			_invalidated = false;
-		}
-
-		glfwWaitEvents();
-	}
-	glfwTerminate();
 
 	return 0;
 }
