@@ -10,6 +10,8 @@ struct NVGcontext;
 
 namespace na
 {
+	typedef s2::func<void()> EventOnClick;
+
 	class Application;
 
 	enum class WidgetDirection

@@ -25,6 +25,9 @@ public:
 			ButtonWidget* button = new ButtonWidget(this);
 			button->SetSize(glm::ivec2(290, 30));
 			button->SetMargin(Bounds(5));
+			button->FuncOnClick([i]() {
+				printf("Button %d was clicked\n", i);
+			});
 			list->AddChild(button);
 		}
 

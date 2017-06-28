@@ -7,6 +7,9 @@ namespace na
 {
 	class ButtonWidget : public RectWidget
 	{
+	private:
+		EventOnClick m_funcOnClick;
+
 	public:
 		ButtonWidget(Application* app);
 		virtual ~ButtonWidget();
@@ -15,5 +18,7 @@ namespace na
 		virtual void OnMouseLeave();
 		virtual void OnMouseDown(int button);
 		virtual void OnMouseUp(int button);
+
+		virtual void FuncOnClick(const EventOnClick &func);
 	};
 }
