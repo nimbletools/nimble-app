@@ -9,10 +9,6 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "")
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "")
 
 find_package(GLEW REQUIRED)
-if (GLEW_FOUND)
-    include_directories(${GLEW_INCLUDE_DIRS})
-    link_libraries(${GLEW_LIBRARIES})
-endif()
 
 add_subdirectory(ext/glfw)
 
@@ -42,12 +38,13 @@ include_directories(
 	ext/layout/
 	ext/glm/glm/
 	include/
+  ${GLEW_INCLUDE_DIRS}
 )
 
 target_link_libraries(nimbleapp
 	glfw
 	GL
-	GLEW
+	${GLEW_LIBRARIES}
 )
 
 if(NA_BUILD_EXAMPLE)
