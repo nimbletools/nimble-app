@@ -8,6 +8,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "")
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "")
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "")
 
+find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
 add_subdirectory(ext/glfw)
@@ -39,11 +40,12 @@ include_directories(
 	ext/glm/glm/
 	include/
 	${GLEW_INCLUDE_DIRS}
+	${OPENGL_INCLUDE_DIR}
 )
 
 target_link_libraries(nimbleapp
 	glfw
-	GL
+	${OPENGL_LIBRARIES}
 	${GLEW_LIBRARIES}
 )
 
