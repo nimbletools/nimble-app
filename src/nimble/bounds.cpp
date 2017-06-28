@@ -17,6 +17,12 @@ na::Bounds::Bounds(int all)
 	m_left = m_right = m_top = m_bottom = all;
 }
 
+na::Bounds::Bounds(int horizontal, int vertical)
+{
+	m_left = m_right = horizontal;
+	m_top = m_bottom = vertical;
+}
+
 na::Bounds::Bounds(int left, int right, int top, int bottom)
 {
 	m_left = left;

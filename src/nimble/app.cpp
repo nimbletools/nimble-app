@@ -16,12 +16,20 @@
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	//
+	na::Application* app = (na::Application*)glfwGetWindowUserPointer(window);
+	if (app == nullptr) {
+		return;
+	}
+	app->CallbackCursorPosition(glm::ivec2((int)xpos, (int)ypos));
 }
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-	//
+	na::Application* app = (na::Application*)glfwGetWindowUserPointer(window);
+	if (app == nullptr) {
+		return;
+	}
+	app->CallbackMouseButton(button, action, mods);
 }
 
 na::Application::Application()
@@ -120,6 +128,55 @@ void na::Application::InvalidateRendering()
 	m_invalidatedRendering = true;
 }
 
+void na::Application::HandleHoverWidgets(Widget* w, const glm::ivec2 &point)
+{
+	if (!w->Contains(point)) {
+		return;
+	}
+
+	if (!w->IsHovering()) {
+		m_hoveringWidgets.add(w);
+		w->OnMouseEnter();
+	}
+
+	for (Widget* child : w->GetChildren()) {
+		HandleHoverWidgets(child, point);
+	}
+}
+
+void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
+{
+	for (int i = m_hoveringWidgets.len() - 1; i >= 0; i--) {
+		Widget* w = m_hoveringWidgets[i];
+		if (!w->IsHovering() || w->Contains(point)) {
+			continue;
+		}
+
+		w->OnMouseLeave();
+		m_hoveringWidgets.remove(i);
+	}
+
+	if (m_root == nullptr) {
+		return;
+	}
+
+	HandleHoverWidgets(m_root, point);
+}
+
+void na::Application::CallbackMouseButton(int button, int action, int mods)
+{
+	if (m_hoveringWidgets.len() == 0) {
+		return;
+	}
+
+	Widget* w = m_hoveringWidgets[m_hoveringWidgets.len() - 1];
+	if (action == GLFW_PRESS) {
+		w->OnMouseDown(button);
+	} else if (action == GLFW_RELEASE) {
+		w->OnMouseUp(button);
+	}
+}
+
 void na::Application::InitializeLayout()
 {
 	m_layout = new lay_context;
@@ -152,6 +209,7 @@ void na::Application::InitializeWindow()
 		return;
 	}
 
+	glfwSetWindowUserPointer(m_window, this);
 	glfwSetCursorPosCallback(m_window, cursor_position_callback);
 	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 	glfwMakeContextCurrent(m_window);

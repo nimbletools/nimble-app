@@ -1,5 +1,6 @@
 #include <nimble/app.h>
 #include <nimble/widgets/rect.h>
+#include <nimble/widgets/button.h>
 
 using namespace na;
 
@@ -18,7 +19,14 @@ public:
 		list->SetLayoutAnchor(AnchorLeft | AnchorFillV);
 		list->SetSize(glm::ivec2(300, 0));
 		list->SetColor(glm::vec4(0, 0.2f, 0, 1));
-		list->SetMargin(Bounds(6));
+		list->SetMargin(Bounds(5));
+
+		for (int i = 0; i < 10; i++) {
+			ButtonWidget* button = new ButtonWidget(this);
+			button->SetSize(glm::ivec2(290, 30));
+			button->SetMargin(Bounds(5));
+			list->AddChild(button);
+		}
 
 		root->AddChild(list);
 

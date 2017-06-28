@@ -121,6 +121,32 @@ void na::Widget::Draw(NVGcontext* vg)
 	}
 }
 
+bool na::Widget::Contains(const glm::ivec2 &absPoint)
+{
+	glm::ivec4 rect = GetLayout();
+	return
+	  (absPoint.x >= rect.x && absPoint.x < rect.x + rect.z) &&
+	  (absPoint.y >= rect.y && absPoint.y < rect.y + rect.w);
+}
+
+void na::Widget::OnMouseEnter()
+{
+	m_hovering = true;
+}
+
+void na::Widget::OnMouseLeave()
+{
+	m_hovering = false;
+}
+
+void na::Widget::OnMouseDown(int button)
+{
+}
+
+void na::Widget::OnMouseUp(int button)
+{
+}
+
 void na::Widget::AddChild(Widget* child)
 {
 	assert(child->m_parent == nullptr);

@@ -66,6 +66,8 @@ namespace na
 
 		Bounds m_margin;
 
+		bool m_hovering = false;
+
 	protected:
 		Widget(Application* app);
 		virtual ~Widget();
@@ -83,7 +85,17 @@ namespace na
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);
 
+		virtual bool Contains(const glm::ivec2 &absPoint);
+
+		virtual void OnMouseEnter();
+		virtual void OnMouseLeave();
+		virtual void OnMouseDown(int button);
+		virtual void OnMouseUp(int button);
+
+		inline const s2::list<Widget*> &GetChildren() { return m_children; }
 		virtual void AddChild(Widget* child);
+
+		inline bool IsHovering() { return m_hovering; }
 
 		inline bool IsVisible() { return m_visible; }
 		virtual void SetVisible(bool visible);

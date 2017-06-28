@@ -30,6 +30,8 @@ namespace na
 		int m_width = 1024;
 		int m_height = 768;
 
+		s2::list<Widget*> m_hoveringWidgets;
+
 	public:
 		Application();
 		virtual ~Application();
@@ -44,6 +46,10 @@ namespace na
 		virtual bool IsInvalidated();
 		virtual void InvalidateLayout();
 		virtual void InvalidateRendering();
+
+		virtual void HandleHoverWidgets(Widget* w, const glm::ivec2 &point);
+		virtual void CallbackCursorPosition(const glm::ivec2 &point);
+		virtual void CallbackMouseButton(int button, int action, int mods);
 
 	protected:
 		virtual void InitializeLayout();

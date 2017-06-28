@@ -27,6 +27,7 @@ add_library(nimbleapp
 	src/nimble/widget.cpp
 	src/nimble/bounds.cpp
 	src/nimble/widgets/rect.cpp
+	src/nimble/widgets/button.cpp
 )
 
 include_directories(

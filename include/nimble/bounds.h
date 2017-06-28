@@ -16,6 +16,7 @@ namespace na
 		Bounds();
 		Bounds(const Bounds &copy);
 		Bounds(int all);
+		Bounds(int horizontal, int vertical);
 		Bounds(int left, int right, int top, int bottom);
 
 		bool operator==(const Bounds &other) const;
