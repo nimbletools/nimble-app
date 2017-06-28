@@ -38,7 +38,7 @@ include_directories(
 	ext/layout/
 	ext/glm/glm/
 	include/
-  ${GLEW_INCLUDE_DIRS}
+	${GLEW_INCLUDE_DIRS}
 )
 
 target_link_libraries(nimbleapp
