@@ -8,7 +8,6 @@ na::ButtonWidget::ButtonWidget(Application* app)
 	: RectWidget(app)
 {
 	SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 1));
-	m_textColor = glm::vec4(1, 1, 1, 1);
 }
 
 na::ButtonWidget::~ButtonWidget()

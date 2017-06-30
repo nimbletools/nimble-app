@@ -1,6 +1,7 @@
 #include <nimble/app.h>
 #include <nimble/widgets/rect.h>
 #include <nimble/widgets/button.h>
+#include <nimble/widgets/label.h>
 
 using namespace na;
 
@@ -27,6 +28,18 @@ public:
 		content->SetLayoutWrapping(true);
 		content->SetLayoutAnchor(AnchorFill);
 		root->AddChild(content);
+
+		LabelWidget* header = new LabelWidget(this);
+		header->SetFont("content/Roboto.ttf");
+		header->SetText("Nimble App Example");
+		header->SetAutosize(false);
+		header->SetSize(glm::ivec2(100, 60));
+		header->SetMargin(Bounds(5));
+		header->SetLayoutAnchor(AnchorFillH);
+		header->SetFontSize(24.0f);
+		header->SetAlignH(TextAlignH::Center);
+		header->SetAlignV(TextAlignV::Top);
+		list->AddChild(header);
 
 		for (int i = 0; i < 5; i++) {
 			ButtonWidget* button = new ButtonWidget(this);

@@ -12,7 +12,7 @@ namespace na
 
 		s2::string m_text;
 		int m_textFont = -1;
-		glm::vec4 m_textColor;
+		glm::vec4 m_textColor = glm::vec4(1, 1, 1, 1);
 
 	public:
 		ButtonWidget(Application* app);
