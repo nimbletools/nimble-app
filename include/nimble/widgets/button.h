@@ -26,9 +26,15 @@ namespace na
 		virtual void OnMouseDown(int button);
 		virtual void OnMouseUp(int button);
 
+		virtual void FuncOnClick(const EventOnClick &func);
+
+		inline Font* GetFont() { return m_textFont; }
 		virtual void SetFont(const s2::string &name);
+
+		inline const s2::string &GetText() { return m_text; }
 		virtual void SetText(const s2::string &text);
 
-		virtual void FuncOnClick(const EventOnClick &func);
+		inline const glm::vec4 &GetTextColor() { return m_textColor; }
+		virtual void SetTextColor(const glm::vec4 &color);
 	};
 }

@@ -79,3 +79,11 @@ void na::ButtonWidget::FuncOnClick(const EventOnClick &func)
 {
 	m_funcOnClick = func;
 }
+
+void na::ButtonWidget::SetTextColor(const glm::vec4 &color)
+{
+	if (m_textColor != color) {
+		InvalidateRendering();
+	}
+	m_textColor = color;
+}

@@ -18,10 +18,10 @@ namespace na
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);
 
-		inline glm::ivec2 GetSize() { return m_size; }
+		inline const glm::ivec2 &GetSize() { return m_size; }
 		virtual void SetSize(const glm::ivec2 &size);
 
-		inline glm::vec4 GetColor() { return m_color; }
+		inline const glm::vec4 &GetColor() { return m_color; }
 		virtual void SetColor(const glm::vec4 &color);
 	};
 }
