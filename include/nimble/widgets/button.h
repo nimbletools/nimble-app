@@ -10,14 +10,23 @@ namespace na
 	private:
 		EventOnClick m_funcOnClick;
 
+		s2::string m_text;
+		int m_textFont = -1;
+		glm::vec4 m_textColor;
+
 	public:
 		ButtonWidget(Application* app);
 		virtual ~ButtonWidget();
+
+		virtual void Draw(NVGcontext* vg);
 
 		virtual void OnMouseEnter();
 		virtual void OnMouseLeave();
 		virtual void OnMouseDown(int button);
 		virtual void OnMouseUp(int button);
+
+		virtual void SetFont(const s2::string &name);
+		virtual void SetText(const s2::string &text);
 
 		virtual void FuncOnClick(const EventOnClick &func);
 	};

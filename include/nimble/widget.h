@@ -51,10 +51,11 @@ namespace na
 
 	class Widget
 	{
-	private:
+	protected:
 		Application* m_app;
 		Widget* m_parent = nullptr;
 
+	private:
 		bool m_visible = true;
 
 		s2::list<Widget*> m_children;

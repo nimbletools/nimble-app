@@ -35,10 +35,12 @@ set(SRC_NIMBLE
 	include/nimble/common.h
 
 	include/nimble/app.h
+	include/nimble/contentmanager.h
 	include/nimble/widget.h
 	include/nimble/bounds.h
 
 	src/nimble/app.cpp
+	src/nimble/contentmanager.cpp
 	src/nimble/widget.cpp
 	src/nimble/bounds.cpp
 )

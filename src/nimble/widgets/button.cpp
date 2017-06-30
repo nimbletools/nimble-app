@@ -1,5 +1,6 @@
 #include <nimble/common.h>
 #include <nimble/widgets/button.h>
+#include <nimble/app.h>
 
 #include <nanovg.h>
 
@@ -7,10 +8,25 @@ na::ButtonWidget::ButtonWidget(Application* app)
 	: RectWidget(app)
 {
 	SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 1));
+	m_textColor = glm::vec4(1, 1, 1, 1);
 }
 
 na::ButtonWidget::~ButtonWidget()
 {
+}
+
+void na::ButtonWidget::Draw(NVGcontext* vg)
+{
+	RectWidget::Draw(vg);
+
+	glm::ivec4 rect = GetLayout();
+
+	if (m_textFont != -1 && m_text != "") {
+		nvgFontFaceId(vg, m_textFont);
+		nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+		nvgFillColor(vg, nvgRGBAf(m_textColor.r, m_textColor.g, m_textColor.b, m_textColor.a));
+		nvgTextBox(vg, rect.x, rect.y + rect.w / 2.0f, rect.z, m_text, nullptr);
+	}
 }
 
 void na::ButtonWidget::OnMouseEnter()
@@ -40,6 +56,23 @@ void na::ButtonWidget::OnMouseUp(int button)
 		m_funcOnClick();
 	}
 	RectWidget::OnMouseUp(button);
+}
+
+void na::ButtonWidget::SetFont(const s2::string &name)
+{
+	int font = m_app->Content.GetFont(name);
+	if (m_textFont != font) {
+		InvalidateRendering();
+	}
+	m_textFont = font;
+}
+
+void na::ButtonWidget::SetText(const s2::string &text)
+{
+	if (m_text != text) {
+		InvalidateRendering();
+	}
+	m_text = text;
 }
 
 void na::ButtonWidget::FuncOnClick(const EventOnClick &func)

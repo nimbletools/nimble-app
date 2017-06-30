@@ -33,6 +33,7 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 }
 
 na::Application::Application()
+	: Content(this)
 {
 	InitializeLayout();
 }
@@ -47,6 +48,8 @@ void na::Application::Run()
 {
 	InitializeRendering();
 	InitializeWindow();
+
+	OnLoad();
 
 	while (!glfwWindowShouldClose(m_window)) {
 		Frame();
@@ -105,6 +108,10 @@ void na::Application::Frame()
 		m_invalidatedRendering = false;
 		Draw();
 	}
+}
+
+void na::Application::OnLoad()
+{
 }
 
 void na::Application::SetRoot(Widget* root)

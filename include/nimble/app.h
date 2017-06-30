@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "widget.h"
+#include "contentmanager.h"
 
 class GLFWwindow;
 struct lay_context;
@@ -12,6 +13,7 @@ namespace na
 	class Application
 	{
 	friend class Widget;
+	friend class ContentManager;
 
 	protected:
 		lay_context* m_layout = nullptr;
@@ -33,6 +35,9 @@ namespace na
 		s2::list<Widget*> m_hoveringWidgets;
 
 	public:
+		ContentManager Content;
+
+	public:
 		Application();
 		virtual ~Application();
 
@@ -40,6 +45,8 @@ namespace na
 		virtual void DoLayout();
 		virtual void Draw();
 		virtual void Frame();
+
+		virtual void OnLoad();
 
 		virtual void SetRoot(Widget* root);
 
