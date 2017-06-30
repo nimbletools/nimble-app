@@ -9,8 +9,6 @@ class ExampleApplication : public Application
 public:
 	virtual void OnLoad()
 	{
-		Content.LoadFont("Roboto", "Roboto.ttf");
-
 		RectWidget* root = new RectWidget(this);
 		root->SetLayoutDirection(WidgetDirection::Horizontal);
 		root->SetLayoutAnchor(AnchorFill);
@@ -32,7 +30,7 @@ public:
 
 		for (int i = 0; i < 5; i++) {
 			ButtonWidget* button = new ButtonWidget(this);
-			button->SetFont("Roboto");
+			button->SetFont("Roboto.ttf");
 			button->SetText(s2::strprintf("Button %d", i));
 			button->SetSize(glm::ivec2(290, 30));
 			button->SetMargin(Bounds(5));

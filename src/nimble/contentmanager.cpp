@@ -14,16 +14,11 @@ na::ContentManager::~ContentManager()
 {
 }
 
-int na::ContentManager::GetFont(const s2::string &name)
+int na::ContentManager::GetFont(const s2::string &filename)
 {
-	return nvgFindFont(m_app->m_nvg, name);
-}
-
-int na::ContentManager::LoadFont(const s2::string &name, const s2::string &filename)
-{
-	int ret = nvgFindFont(m_app->m_nvg, name);
+	int ret = nvgFindFont(m_app->m_nvg, filename);
 	if (ret == -1) {
-		ret = nvgCreateFont(m_app->m_nvg, name, filename);
+		ret = nvgCreateFont(m_app->m_nvg, filename, filename);
 		if (ret == -1) {
 			printf("Failed to create font\n");
 		}

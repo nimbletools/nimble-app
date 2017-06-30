@@ -15,7 +15,6 @@ namespace na
 		ContentManager(Application* app);
 		~ContentManager();
 
-		int GetFont(const s2::string &name);
-		int LoadFont(const s2::string &name, const s2::string &filename);
+		int GetFont(const s2::string &filename);
 	};
 }
