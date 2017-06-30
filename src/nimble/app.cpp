@@ -53,6 +53,8 @@ static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 na::Application::Application()
 	: Content(this)
 {
+	m_windowSize = glm::ivec2(1024, 768);
+
 	InitializeLayout();
 }
 
@@ -85,9 +87,11 @@ void na::Application::DoLayout()
 	static int _layoutCount = 0;
 	printf("Layout %d\n", _layoutCount++);
 
+	float pixelScale = GetPixelScale();
+
 	lay_reset_context(m_layout);
 	lay_id root = lay_item(m_layout);
-	lay_set_size_xy(m_layout, root, m_width, m_height);
+	lay_set_size_xy(m_layout, root, m_bufferSize.x / pixelScale, m_bufferSize.y / pixelScale);
 
 	if (m_root != nullptr) {
 		m_root->DoLayout(m_layout, root);
@@ -102,9 +106,12 @@ void na::Application::Draw()
 	printf("Render %d\n", _renderCount++);
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glViewport(0, 0, m_width, m_height);
+	glViewport(0, 0, m_bufferSize.x, m_bufferSize.y);
 
-	nvgBeginFrame(m_nvg, m_width, m_height, 1.0f);
+	nvgBeginFrame(m_nvg, m_bufferSize.x, m_bufferSize.y, 1.0f);
+
+	float pixelScale = GetPixelScale();
+	nvgScale(m_nvg, pixelScale, pixelScale);
 
 	if (m_root != nullptr) {
 		m_root->Draw(m_nvg);
@@ -133,16 +140,20 @@ void na::Application::OnLoad()
 {
 }
 
-void na::Application::SetSize(int width, int height)
+void na::Application::SetWindowSize(const glm::ivec2 &size)
 {
-	if (m_width != width || m_height != height) {
+	if (m_windowSize != size) {
 		InvalidateLayout();
 	}
 
-	m_width = width;
-	m_height = height;
+	m_windowSize = size;
+	glfwSetWindowSize(m_window, size.x, size.y);
+	glfwGetFramebufferSize(m_window, &m_bufferSize.x, &m_bufferSize.y);
+}
 
-	glfwSetWindowSize(m_window, width, height);
+float na::Application::GetPixelScale()
+{
+	return m_bufferSize.x / m_windowSize.x;
 }
 
 void na::Application::SetRoot(Widget* root)
@@ -220,18 +231,19 @@ void na::Application::CallbackMouseButton(int button, int action, int mods)
 void na::Application::CallbackWindowResized(int width, int height)
 {
 	InvalidateLayout();
+
+	m_windowSize = glm::ivec2(width, height);
 }
 
 void na::Application::CallbackFramebufferResized(int width, int height)
 {
-	if (m_width == width && m_height == height) {
+	if (m_bufferSize.x == width && m_bufferSize.y == height) {
 		return;
 	}
 
 	InvalidateLayout();
 
-	m_width = width;
-	m_height = height;
+	m_bufferSize = glm::ivec2(width, height);
 }
 
 void na::Application::InitializeLayout()
@@ -259,12 +271,14 @@ void na::Application::InitializeRendering()
 
 void na::Application::InitializeWindow()
 {
-	m_window = glfwCreateWindow(m_width, m_height, "Nimble App", nullptr, nullptr);
+	m_window = glfwCreateWindow(m_windowSize.x, m_windowSize.y, "Nimble App", nullptr, nullptr);
 	if (m_window == nullptr) {
 		printf("No window\n");
 		CleanupRendering();
 		return;
 	}
+
+	glfwGetFramebufferSize(m_window, &m_bufferSize.x, &m_bufferSize.y);
 
 	glfwSetWindowUserPointer(m_window, this);
 	glfwSetCursorPosCallback(m_window, cursor_position_callback);

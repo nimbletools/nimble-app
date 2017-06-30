@@ -29,8 +29,8 @@ namespace na
 		bool m_invalidatedLayout = true;
 		bool m_invalidatedRendering = true;
 
-		int m_width = 1024;
-		int m_height = 768;
+		glm::ivec2 m_windowSize;
+		glm::ivec2 m_bufferSize;
 
 		s2::list<Widget*> m_hoveringWidgets;
 
@@ -48,7 +48,8 @@ namespace na
 
 		virtual void OnLoad();
 
-		virtual void SetSize(int width, int height);
+		virtual void SetWindowSize(const glm::ivec2 &size);
+		virtual float GetPixelScale();
 
 		virtual void SetRoot(Widget* root);
 
