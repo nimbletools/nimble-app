@@ -48,6 +48,8 @@ namespace na
 
 		virtual void OnLoad();
 
+		virtual void SetSize(int width, int height);
+
 		virtual void SetRoot(Widget* root);
 
 		virtual bool IsInvalidated();
@@ -57,6 +59,8 @@ namespace na
 		virtual void HandleHoverWidgets(Widget* w, const glm::ivec2 &point);
 		virtual void CallbackCursorPosition(const glm::ivec2 &point);
 		virtual void CallbackMouseButton(int button, int action, int mods);
+		virtual void CallbackWindowResized(int width, int height);
+		virtual void CallbackFramebufferResized(int width, int height);
 
 	protected:
 		virtual void InitializeLayout();

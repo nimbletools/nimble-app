@@ -37,6 +37,11 @@ public:
 			button->SetSize(glm::ivec2(290, 30));
 			button->SetMargin(Bounds(5));
 			button->FuncOnClick([i, content, this]() {
+				if (i == 4) {
+					SetSize(512, 512);
+					return;
+				}
+
 				RectWidget* rect = new RectWidget(this);
 				rect->SetSize(glm::ivec2(32, 32));
 				rect->SetColor(glm::vec4(0, 1, 0, 1));

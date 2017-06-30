@@ -32,6 +32,24 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 	app->CallbackMouseButton(button, action, mods);
 }
 
+static void window_size_callback(GLFWwindow* window, int width, int height)
+{
+	na::Application* app = (na::Application*)glfwGetWindowUserPointer(window);
+	if (app == nullptr) {
+		return;
+	}
+	app->CallbackWindowResized(width, height);
+}
+
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	na::Application* app = (na::Application*)glfwGetWindowUserPointer(window);
+	if (app == nullptr) {
+		return;
+	}
+	app->CallbackFramebufferResized(width, height);
+}
+
 na::Application::Application()
 	: Content(this)
 {
@@ -84,6 +102,7 @@ void na::Application::Draw()
 	printf("Render %d\n", _renderCount++);
 
 	glClear(GL_COLOR_BUFFER_BIT);
+	glViewport(0, 0, m_width, m_height);
 
 	nvgBeginFrame(m_nvg, m_width, m_height, 1.0f);
 
@@ -114,10 +133,24 @@ void na::Application::OnLoad()
 {
 }
 
+void na::Application::SetSize(int width, int height)
+{
+	if (m_width != width || m_height != height) {
+		InvalidateLayout();
+	}
+
+	m_width = width;
+	m_height = height;
+
+	glfwSetWindowSize(m_window, width, height);
+}
+
 void na::Application::SetRoot(Widget* root)
 {
+	if (m_root != root) {
+		InvalidateLayout();
+	}
 	m_root = root;
-	InvalidateLayout();
 }
 
 bool na::Application::IsInvalidated()
@@ -184,6 +217,23 @@ void na::Application::CallbackMouseButton(int button, int action, int mods)
 	}
 }
 
+void na::Application::CallbackWindowResized(int width, int height)
+{
+	InvalidateLayout();
+}
+
+void na::Application::CallbackFramebufferResized(int width, int height)
+{
+	if (m_width == width && m_height == height) {
+		return;
+	}
+
+	InvalidateLayout();
+
+	m_width = width;
+	m_height = height;
+}
+
 void na::Application::InitializeLayout()
 {
 	m_layout = new lay_context;
@@ -219,6 +269,8 @@ void na::Application::InitializeWindow()
 	glfwSetWindowUserPointer(m_window, this);
 	glfwSetCursorPosCallback(m_window, cursor_position_callback);
 	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
+	glfwSetWindowSizeCallback(m_window, window_size_callback);
+	glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 	glfwMakeContextCurrent(m_window);
 
 	glewExperimental = GL_TRUE;
