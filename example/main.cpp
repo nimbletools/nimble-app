@@ -20,18 +20,27 @@ public:
 		list->SetSize(glm::ivec2(300, 0));
 		list->SetColor(glm::vec4(0, 0.2f, 0, 1));
 		list->SetMargin(Bounds(5));
+		root->AddChild(list);
 
-		for (int i = 0; i < 10; i++) {
+		RectWidget* content = new RectWidget(this);
+		content->SetLayoutDirection(WidgetDirection::Horizontal);
+		content->SetLayoutWrapping(true);
+		content->SetLayoutAnchor(AnchorFill);
+		root->AddChild(content);
+
+		for (int i = 0; i < 5; i++) {
 			ButtonWidget* button = new ButtonWidget(this);
 			button->SetSize(glm::ivec2(290, 30));
 			button->SetMargin(Bounds(5));
-			button->FuncOnClick([i]() {
-				printf("Button %d was clicked\n", i);
+			button->FuncOnClick([i, content, this]() {
+				RectWidget* rect = new RectWidget(this);
+				rect->SetSize(glm::ivec2(32, 32));
+				rect->SetColor(glm::vec4(0, 1, 0, 1));
+				rect->SetMargin(Bounds(5));
+				content->AddChild(rect);
 			});
 			list->AddChild(button);
 		}
-
-		root->AddChild(list);
 
 		SetRoot(root);
 	}

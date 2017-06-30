@@ -146,7 +146,7 @@ void na::Application::HandleHoverWidgets(Widget* w, const glm::ivec2 &point)
 
 void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 {
-	for (int i = m_hoveringWidgets.len() - 1; i >= 0; i--) {
+	for (int i = (int)m_hoveringWidgets.len() - 1; i >= 0; i--) {
 		Widget* w = m_hoveringWidgets[i];
 		if (!w->IsHovering() || w->Contains(point)) {
 			continue;
