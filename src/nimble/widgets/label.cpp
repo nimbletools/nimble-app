@@ -30,11 +30,11 @@ void na::LabelWidget::DoLayout(lay_context* l, lay_id parent)
 
 void na::LabelWidget::Draw(NVGcontext* vg)
 {
-	if (m_color.a > 0.0f) {
+	if (m_font != nullptr && m_color.a > 0.0f) {
 		glm::ivec4 rect = GetLayout();
 
 		nvgSave(vg);
-		nvgFontFaceId(vg, m_font);
+		nvgFontFaceId(vg, m_font->GetHandle());
 		int align = 0;
 		switch (m_alignH) {
 			case TextAlignH::Left: align |= NVG_ALIGN_LEFT; break;
@@ -70,7 +70,7 @@ void na::LabelWidget::SetText(const s2::string &text)
 
 void na::LabelWidget::SetFont(const s2::string &name)
 {
-	int font = m_app->Content.GetFont(name);
+	Font* font = m_app->Content.Get<Font>(name);
 	if (m_font != font) {
 		if (m_autoSize) {
 			InvalidateLayout();

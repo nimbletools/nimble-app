@@ -2,6 +2,7 @@
 
 #include "../common.h"
 #include "rect.h"
+#include "../content/font.h"
 
 namespace na
 {
@@ -11,7 +12,7 @@ namespace na
 		EventOnClick m_funcOnClick;
 
 		s2::string m_text;
-		int m_textFont = -1;
+		Font* m_textFont = nullptr;
 		glm::vec4 m_textColor = glm::vec4(1, 1, 1, 1);
 
 	public:

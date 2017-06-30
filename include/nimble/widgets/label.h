@@ -2,6 +2,7 @@
 
 #include "../common.h"
 #include "../widget.h"
+#include "../content/font.h"
 
 namespace na
 {
@@ -24,7 +25,7 @@ namespace na
 	{
 	private:
 		s2::string m_text;
-		int m_font = -1;
+		Font* m_font = nullptr;
 		float m_fontSize = 16.0f;
 		glm::vec4 m_color = glm::vec4(1, 1, 1, 1);
 		TextAlignH m_alignH = TextAlignH::Left;
@@ -43,7 +44,7 @@ namespace na
 		inline const s2::string &GetText() { return m_text; }
 		virtual void SetText(const s2::string &text);
 
-		inline int GetFont() { return m_font; }
+		inline Font* GetFont() { return m_font; }
 		virtual void SetFont(const s2::string &name);
 
 		inline float GetFontSize() { return m_fontSize; }

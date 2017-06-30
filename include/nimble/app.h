@@ -63,6 +63,8 @@ namespace na
 		virtual void CallbackWindowResized(int width, int height);
 		virtual void CallbackFramebufferResized(int width, int height);
 
+		inline NVGcontext* GetNVG() { return m_nvg; } //TODO: Get rid of this function
+
 	protected:
 		virtual void InitializeLayout();
 		virtual void InitializeRendering();

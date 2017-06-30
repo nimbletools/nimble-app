@@ -1,6 +1,7 @@
 #include <nimble/common.h>
 #include <nimble/widgets/button.h>
 #include <nimble/app.h>
+#include <nimble/content/font.h>
 
 #include <nanovg.h>
 
@@ -20,8 +21,8 @@ void na::ButtonWidget::Draw(NVGcontext* vg)
 
 	glm::ivec4 rect = GetLayout();
 
-	if (m_textFont != -1 && m_text != "") {
-		nvgFontFaceId(vg, m_textFont);
+	if (m_textFont != nullptr && m_text != "") {
+		nvgFontFaceId(vg, m_textFont->GetHandle());
 		nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
 		nvgFillColor(vg, nvgRGBAf(m_textColor.r, m_textColor.g, m_textColor.b, m_textColor.a));
 		nvgTextBox(vg, rect.x, rect.y + rect.w / 2.0f, rect.z, m_text, nullptr);
@@ -59,7 +60,7 @@ void na::ButtonWidget::OnMouseUp(int button)
 
 void na::ButtonWidget::SetFont(const s2::string &name)
 {
-	int font = m_app->Content.GetFont(name);
+	Font* font = m_app->Content.Get<Font>(name);
 	if (m_textFont != font) {
 		InvalidateRendering();
 	}
