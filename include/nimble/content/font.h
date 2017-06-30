@@ -17,5 +17,7 @@ namespace na
 		virtual void Load(const s2::string &filename);
 
 		int GetHandle();
+
+		glm::vec2 Measure(const s2::string &text, float size = 16.0f);
 	};
 }

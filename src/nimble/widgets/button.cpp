@@ -22,10 +22,12 @@ void na::ButtonWidget::Draw(NVGcontext* vg)
 	glm::ivec4 rect = GetLayout();
 
 	if (m_textFont != nullptr && m_text != "") {
+		nvgSave(vg);
 		nvgFontFaceId(vg, m_textFont->GetHandle());
 		nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
 		nvgFillColor(vg, nvgRGBAf(m_textColor.r, m_textColor.g, m_textColor.b, m_textColor.a));
 		nvgTextBox(vg, rect.x, rect.y + rect.w / 2.0f, rect.z, m_text, nullptr);
+		nvgRestore(vg);
 	}
 }
 

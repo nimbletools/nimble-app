@@ -18,9 +18,9 @@ void na::LabelWidget::DoLayout(lay_context* l, lay_id parent)
 {
 	lay_id id = BeginLayout(parent);
 
-	if (m_autoSize) {
-		//TODO: Real measuring, maybe use a real font class instead of just an integer to pass around, too
-		m_size = glm::ivec2(100, 20);
+	if (m_autoSize && m_font != nullptr) {
+		glm::vec2 measure = m_font->Measure(m_text, m_fontSize);
+		m_size = glm::ivec2((int)measure.x, (int)measure.y);
 	}
 
 	lay_set_size_xy(l, id, m_size.x, m_size.y);

@@ -26,10 +26,12 @@ void na::RectWidget::Draw(NVGcontext* vg)
 	if (m_color.a > 0.0f) {
 		glm::ivec4 rect = GetLayout();
 
+		nvgSave(vg);
 		nvgBeginPath(vg);
 		nvgRect(vg, rect.x, rect.y, rect.z, rect.w);
 		nvgFillColor(vg, nvgRGBAf(m_color.r, m_color.g, m_color.b, m_color.a));
 		nvgFill(vg);
+		nvgRestore(vg);
 	}
 
 	Widget::Draw(vg);

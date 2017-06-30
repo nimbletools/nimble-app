@@ -32,13 +32,13 @@ public:
 		LabelWidget* header = new LabelWidget(this);
 		header->SetFont("content/Roboto.ttf");
 		header->SetText("Nimble App Example");
-		header->SetAutosize(false);
-		header->SetSize(glm::ivec2(100, 60));
+		//header->SetAutosize(false);
+		//header->SetSize(glm::ivec2(100, 60));
 		header->SetMargin(Bounds(5));
-		header->SetLayoutAnchor(AnchorFillH);
+		//header->SetLayoutAnchor(AnchorFillH);
 		header->SetFontSize(24.0f);
-		header->SetAlignH(TextAlignH::Center);
-		header->SetAlignV(TextAlignV::Top);
+		//header->SetAlignH(TextAlignH::Center);
+		//header->SetAlignV(TextAlignV::Top);
 		list->AddChild(header);
 
 		for (int i = 0; i < 5; i++) {
@@ -50,6 +50,11 @@ public:
 			button->FuncOnClick([i, content, this]() {
 				if (i == 4) {
 					SetWindowSize(glm::ivec2(512, 512));
+					return;
+				}
+
+				if (i == 3) {
+					InvalidateLayout();
 					return;
 				}
 

@@ -24,3 +24,19 @@ int na::Font::GetHandle()
 {
 	return m_handle;
 }
+
+glm::vec2 na::Font::Measure(const s2::string &text, float size)
+{
+	NVGcontext* vg = m_app->GetNVG();
+
+	nvgSave(vg);
+	nvgReset(vg); //TODO: why is this needed?
+	nvgFontFaceId(vg, m_handle);
+	nvgFontSize(vg, size);
+	nvgTextAlign(vg, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
+	float bounds[4];
+	nvgTextBounds(vg, 0, 0, text, nullptr, bounds);
+	nvgRestore(vg);
+
+	return glm::vec2(bounds[2], bounds[3]);
+}
