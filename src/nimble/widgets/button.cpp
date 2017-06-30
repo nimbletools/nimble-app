@@ -58,6 +58,11 @@ void na::ButtonWidget::OnMouseUp(int button)
 	RectWidget::OnMouseUp(button);
 }
 
+void na::ButtonWidget::FuncOnClick(const EventOnClick &func)
+{
+	m_funcOnClick = func;
+}
+
 void na::ButtonWidget::SetFont(const s2::string &name)
 {
 	Font* font = m_app->Content.Get<Font>(name);
@@ -73,11 +78,6 @@ void na::ButtonWidget::SetText(const s2::string &text)
 		InvalidateRendering();
 	}
 	m_text = text;
-}
-
-void na::ButtonWidget::FuncOnClick(const EventOnClick &func)
-{
-	m_funcOnClick = func;
 }
 
 void na::ButtonWidget::SetTextColor(const glm::vec4 &color)
