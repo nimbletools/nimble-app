@@ -32,13 +32,8 @@ public:
 		LabelWidget* header = new LabelWidget(this);
 		header->SetFont("content/Roboto.ttf");
 		header->SetText("Nimble App Example");
-		//header->SetAutosize(false);
-		//header->SetSize(glm::ivec2(100, 60));
 		header->SetMargin(Bounds(5));
-		//header->SetLayoutAnchor(AnchorFillH);
 		header->SetFontSize(24.0f);
-		//header->SetAlignH(TextAlignH::Center);
-		//header->SetAlignV(TextAlignV::Top);
 		list->AddChild(header);
 
 		for (int i = 0; i < 5; i++) {
