@@ -13,6 +13,17 @@ na::RectWidget::~RectWidget()
 {
 }
 
+void na::RectWidget::Load(LayoutNode &node)
+{
+	Widget::Load(node);
+
+	int width = node.GetInt("width", false, m_size.x);
+	int height = node.GetInt("height", false, m_size.y);
+	SetSize(glm::ivec2(width, height));
+
+	SetColor(node.GetColor("color", false, m_color));
+}
+
 void na::RectWidget::DoLayout(lay_context* l, lay_id parent)
 {
 	lay_id id = BeginLayout(parent);

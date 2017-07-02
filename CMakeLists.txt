@@ -23,6 +23,15 @@ set(SRC_EXT
 	ext/nanovg/src/nanovg_gl_utils.h
 	ext/nanovg/src/stb_image.h
 	ext/nanovg/src/stb_truetype.h
+
+	ext/irrxml/CXMLReaderImpl.h
+	ext/irrxml/fast_atof.h
+	ext/irrxml/heapsort.h
+	ext/irrxml/irrArray.h
+	ext/irrxml/irrString.h
+	ext/irrxml/irrTypes.h
+	ext/irrxml/irrXML.cpp
+	ext/irrxml/irrXML.h
 )
 
 set(SRC
@@ -39,12 +48,16 @@ set(SRC_NIMBLE
 	include/nimble/widget.h
 	include/nimble/bounds.h
 	include/nimble/content.h
+	include/nimble/layoutloader.h
+	include/nimble/layoutnode.h
 
 	src/nimble/app.cpp
 	src/nimble/contentmanager.cpp
 	src/nimble/widget.cpp
 	src/nimble/bounds.cpp
 	src/nimble/content.cpp
+	src/nimble/layoutloader.cpp
+	src/nimble/layoutnode.cpp
 )
 
 set(SRC_NIMBLE_WIDGETS
@@ -82,6 +95,7 @@ include_directories(
 	ext/scratch2/scratch2/
 	ext/layout/
 	ext/glm/glm/
+	ext/irrxml/
 	include/
 	${GLEW_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}

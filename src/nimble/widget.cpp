@@ -101,6 +101,55 @@ glm::ivec4 na::Widget::GetLayout()
 	return glm::ivec4(rect[0], rect[1], rect[2], rect[3]);
 }
 
+void na::Widget::Load(LayoutNode &node)
+{
+	SetVisible(node.GetBool("visible", false, m_visible));
+	SetLayoutModel(node.GetBool("flex", false, m_layModel == WidgetModel::Flex) ? WidgetModel::Flex : WidgetModel::Layout);
+
+	s2::string justify = node.GetString("justify", false);
+	if (justify != "") {
+		if (justify == "start") {
+			SetLayoutJustify(WidgetJustify::Start);
+		} else if (justify == "middle") {
+			SetLayoutJustify(WidgetJustify::Middle);
+		} else if (justify == "end") {
+			SetLayoutJustify(WidgetJustify::End);
+		} else if (justify == "justify") {
+			SetLayoutJustify(WidgetJustify::Justify);
+		} else {
+			printf("Unknown justify %s\n", (const char*)justify);
+		}
+	}
+
+	s2::string anchor = node.GetString("anchor", false);
+	if (anchor != "") {
+		s2::stringsplit parse = anchor.split(" ");
+		int anchorFlags = AnchorNone;
+
+		for (int i = 0; i < parse.len(); i++) {
+			if (parse[i] == "none") { anchorFlags |= AnchorNone; }
+
+			else if (parse[i] == "left") { anchorFlags |= AnchorLeft; }
+			else if (parse[i] == "right") { anchorFlags |= AnchorRight; }
+			else if (parse[i] == "top") { anchorFlags |= AnchorTop; }
+			else if (parse[i] == "bottom") { anchorFlags |= AnchorBottom; }
+
+			else if (parse[i] == "fillh") { anchorFlags |= AnchorFillH; }
+			else if (parse[i] == "fillv") { anchorFlags |= AnchorFillV; }
+			else if (parse[i] == "fill") { anchorFlags |= AnchorFill; }
+			else {
+				printf("Unknown anchor %s\n", (const char*)parse[i]);
+			}
+		}
+
+		SetLayoutAnchor(anchorFlags);
+	}
+
+	SetLayoutWrapping(node.GetBool("wrapping", false, m_layWrap));
+
+	SetMargin(node.GetBounds("margin", false, m_margin));
+}
+
 void na::Widget::DoLayout(lay_context* l, lay_id parent)
 {
 	for (Widget* child : m_children) {

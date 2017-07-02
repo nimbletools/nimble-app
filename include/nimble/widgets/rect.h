@@ -15,6 +15,8 @@ namespace na
 		RectWidget(Application* app);
 		virtual ~RectWidget();
 
+		virtual void Load(LayoutNode &node);
+
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);
 

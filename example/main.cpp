@@ -1,68 +1,11 @@
 #include <nimble/app.h>
-#include <nimble/widgets/rect.h>
-#include <nimble/widgets/button.h>
-#include <nimble/widgets/label.h>
 
-using namespace na;
-
-class ExampleApplication : public Application
+class ExampleApplication : public na::Application
 {
 public:
 	virtual void OnLoad()
 	{
-		RectWidget* root = new RectWidget(this);
-		root->SetLayoutDirection(WidgetDirection::Horizontal);
-		root->SetLayoutAnchor(AnchorFill);
-		root->SetColor(glm::vec4(0.2f, 0, 0, 1));
-
-		RectWidget* list = new RectWidget(this);
-		list->SetLayoutDirection(WidgetDirection::Vertical);
-		list->SetLayoutAnchor(AnchorLeft | AnchorFillV);
-		list->SetSize(glm::ivec2(300, 0));
-		list->SetColor(glm::vec4(0, 0.2f, 0, 1));
-		list->SetMargin(Bounds(5));
-		root->AddChild(list);
-
-		RectWidget* content = new RectWidget(this);
-		content->SetLayoutDirection(WidgetDirection::Horizontal);
-		content->SetLayoutWrapping(true);
-		content->SetLayoutAnchor(AnchorFill);
-		root->AddChild(content);
-
-		LabelWidget* header = new LabelWidget(this);
-		header->SetFont("content/Roboto.ttf");
-		header->SetText("Nimble App Example");
-		header->SetMargin(Bounds(5));
-		header->SetFontSize(24.0f);
-		list->AddChild(header);
-
-		for (int i = 0; i < 5; i++) {
-			ButtonWidget* button = new ButtonWidget(this);
-			button->SetFont("content/Roboto.ttf");
-			button->SetText(s2::strprintf("Button %d", i));
-			button->SetSize(glm::ivec2(290, 30));
-			button->SetMargin(Bounds(5));
-			button->FuncOnClick([i, content, this]() {
-				if (i == 4) {
-					SetWindowSize(glm::ivec2(512, 512));
-					return;
-				}
-
-				if (i == 3) {
-					InvalidateLayout();
-					return;
-				}
-
-				RectWidget* rect = new RectWidget(this);
-				rect->SetSize(glm::ivec2(32, 32));
-				rect->SetColor(glm::vec4(0, 1, 0, 1));
-				rect->SetMargin(Bounds(5));
-				content->AddChild(rect);
-			});
-			list->AddChild(button);
-		}
-
-		SetRoot(root);
+		LoadLayout("content/example.xml");
 	}
 };
 

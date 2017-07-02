@@ -36,6 +36,7 @@ namespace na
 
 	public:
 		ContentManager Content;
+		s2::dict<s2::string, WidgetFactory> WidgetFactories;
 
 	public:
 		Application();
@@ -52,6 +53,7 @@ namespace na
 		virtual float GetPixelScale();
 
 		virtual void SetRoot(Widget* root);
+		virtual void LoadLayout(const s2::string &filename);
 
 		virtual bool IsInvalidated();
 		virtual void InvalidateLayout();

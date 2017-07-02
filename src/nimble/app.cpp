@@ -1,5 +1,10 @@
 #include <nimble/common.h>
 #include <nimble/app.h>
+#include <nimble/layoutloader.h>
+
+#include <nimble/widgets/rect.h>
+#include <nimble/widgets/button.h>
+#include <nimble/widgets/label.h>
 
 #include <GL/glew.h>
 #ifdef __APPLE__
@@ -13,6 +18,7 @@
 #include <nanovg_gl.h>
 
 #include <layout.h>
+#include <irrXML.h>
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -56,6 +62,37 @@ na::Application::Application()
 	m_windowSize = glm::ivec2(1024, 768);
 
 	InitializeLayout();
+
+	//TODO: Move these
+	WidgetFactories.add("rect", [this](LayoutNode &node) {
+		RectWidget* ret = new RectWidget(this);
+		ret->Load(node); //TODO: Remove the need for this Load() in these callbacks? Or at least consider it
+		return ret;
+	});
+	WidgetFactories.add("hbox", [this](LayoutNode &node) {
+		RectWidget* ret = new RectWidget(this);
+		ret->SetLayoutDirection(WidgetDirection::Horizontal);
+		ret->Load(node);
+		return ret;
+	});
+	WidgetFactories.add("vbox", [this](LayoutNode &node) {
+		RectWidget* ret = new RectWidget(this);
+		ret->SetLayoutDirection(WidgetDirection::Vertical);
+		ret->Load(node);
+		return ret;
+	});
+	WidgetFactories.add("label", [this](LayoutNode &node) {
+		LabelWidget* ret = new LabelWidget(this);
+		ret->Load(node);
+		return ret;
+	});
+	WidgetFactories.add("button", [this](LayoutNode &node) {
+		ButtonWidget* ret = new ButtonWidget(this);
+		ret->SetLayoutAnchor(AnchorFillH);
+		ret->SetSize(glm::ivec2(0, 26));
+		ret->Load(node);
+		return ret;
+	});
 }
 
 na::Application::~Application()
@@ -162,6 +199,20 @@ void na::Application::SetRoot(Widget* root)
 		InvalidateLayout();
 	}
 	m_root = root;
+}
+
+void na::Application::LoadLayout(const s2::string &filename)
+{
+	irr::io::IrrXMLReader* xml = irr::io::createIrrXMLReader(filename);
+	if (xml == nullptr) {
+		printf("Couldn't open %s\n", (const char*)filename);
+		return;
+	}
+
+	LayoutLoader loader(this, xml);
+	SetRoot(loader.Load());
+
+	delete xml;
 }
 
 bool na::Application::IsInvalidated()

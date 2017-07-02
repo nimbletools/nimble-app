@@ -15,6 +15,21 @@ na::ButtonWidget::~ButtonWidget()
 {
 }
 
+void na::ButtonWidget::Load(LayoutNode &node)
+{
+	RectWidget::Load(node);
+
+	if (m_textFont != nullptr) {
+		SetFont(node.GetString("font", false, m_textFont->Filename));
+	} else {
+		SetFont(node.GetString("font"));
+	}
+
+	SetTextColor(node.GetColor("textcolor", false, m_textColor));
+
+	SetText(node.GetContent());
+}
+
 void na::ButtonWidget::Draw(NVGcontext* vg)
 {
 	RectWidget::Draw(vg);

@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "bounds.h"
+#include "layoutnode.h"
 
 typedef uint32_t lay_id;
 
@@ -10,9 +11,12 @@ struct NVGcontext;
 
 namespace na
 {
-	typedef s2::func<void()> EventOnClick;
-
 	class Application;
+	class Widget;
+
+	typedef s2::func<Widget*(LayoutNode &)> WidgetFactory;
+
+	typedef s2::func<void()> EventOnClick;
 
 	enum class WidgetDirection
 	{
@@ -51,6 +55,8 @@ namespace na
 
 	class Widget
 	{
+		//TODO: Add ref count
+
 	protected:
 		Application* m_app;
 		Widget* m_parent = nullptr;
@@ -85,6 +91,8 @@ namespace na
 		virtual glm::ivec4 GetLayout();
 
 	public:
+		virtual void Load(LayoutNode &node);
+
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);
 

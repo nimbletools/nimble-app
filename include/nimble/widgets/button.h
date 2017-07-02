@@ -19,6 +19,8 @@ namespace na
 		ButtonWidget(Application* app);
 		virtual ~ButtonWidget();
 
+		virtual void Load(LayoutNode &node);
+
 		virtual void Draw(NVGcontext* vg);
 
 		virtual void OnMouseEnter();

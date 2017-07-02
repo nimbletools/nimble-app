@@ -2,6 +2,8 @@
 
 #include <cstdio>
 #include <cstdint>
+#include <cstdlib>
+#include <cctype>
 
 #include <s2string.h>
 #include <s2list.h>

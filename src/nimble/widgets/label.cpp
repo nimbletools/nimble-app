@@ -14,6 +14,48 @@ na::LabelWidget::~LabelWidget()
 {
 }
 
+void na::LabelWidget::Load(LayoutNode &node)
+{
+	Widget::Load(node);
+
+	if (m_font != nullptr) {
+		SetFont(node.GetString("font", false, m_font->Filename));
+	} else {
+		SetFont(node.GetString("font"));
+	}
+
+	SetFontSize(node.GetFloat("fontsize", false, m_fontSize));
+	SetColor(node.GetColor("color", false, m_color));
+
+	s2::string alignh = node.GetString("alignh", false);
+	if (alignh != "") {
+		if (alignh == "left") { SetAlignH(TextAlignH::Left); }
+		else if (alignh == "center") { SetAlignH(TextAlignH::Center); }
+		else if (alignh == "right") { SetAlignH(TextAlignH::Right); }
+		else {
+			printf("Unknown alignh %s\n", (const char*)alignh);
+		}
+	}
+
+	s2::string alignv = node.GetString("alignv", false);
+	if (alignv != "") {
+		if (alignv == "top") { SetAlignV(TextAlignV::Top); }
+		else if (alignv == "middle") { SetAlignV(TextAlignV::Middle); }
+		else if (alignv == "bottom") { SetAlignV(TextAlignV::Bottom); }
+		else {
+			printf("Unknown alignv %s\n", (const char*)alignv);
+		}
+	}
+
+	SetAutosize(node.GetBool("autosize", false, m_autoSize));
+
+	int width = node.GetInt("width", false, m_size.x);
+	int height = node.GetInt("height", false, m_size.y);
+	SetSize(glm::ivec2(width, height));
+
+	SetText(node.GetContent());
+}
+
 void na::LabelWidget::DoLayout(lay_context* l, lay_id parent)
 {
 	lay_id id = BeginLayout(parent);
