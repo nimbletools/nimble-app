@@ -64,33 +64,26 @@ na::Application::Application()
 	InitializeLayout();
 
 	//TODO: Move these
-	WidgetFactories.add("rect", [this](LayoutNode &node) {
-		RectWidget* ret = new RectWidget(this);
-		ret->Load(node); //TODO: Remove the need for this Load() in these callbacks? Or at least consider it
-		return ret;
+	WidgetFactories.add("rect", [this]() {
+		return new RectWidget(this);
 	});
-	WidgetFactories.add("hbox", [this](LayoutNode &node) {
+	WidgetFactories.add("hbox", [this]() {
 		RectWidget* ret = new RectWidget(this);
 		ret->SetLayoutDirection(WidgetDirection::Horizontal);
-		ret->Load(node);
 		return ret;
 	});
-	WidgetFactories.add("vbox", [this](LayoutNode &node) {
+	WidgetFactories.add("vbox", [this]() {
 		RectWidget* ret = new RectWidget(this);
 		ret->SetLayoutDirection(WidgetDirection::Vertical);
-		ret->Load(node);
 		return ret;
 	});
-	WidgetFactories.add("label", [this](LayoutNode &node) {
-		LabelWidget* ret = new LabelWidget(this);
-		ret->Load(node);
-		return ret;
+	WidgetFactories.add("label", [this]() {
+		return new LabelWidget(this);
 	});
-	WidgetFactories.add("button", [this](LayoutNode &node) {
+	WidgetFactories.add("button", [this]() {
 		ButtonWidget* ret = new ButtonWidget(this);
 		ret->SetLayoutAnchor(AnchorFillH);
 		ret->SetSize(glm::ivec2(0, 26));
-		ret->Load(node);
 		return ret;
 	});
 }

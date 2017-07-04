@@ -14,7 +14,7 @@ namespace na
 	class Application;
 	class Widget;
 
-	typedef s2::func<Widget*(LayoutNode &)> WidgetFactory;
+	typedef s2::func<Widget*()> WidgetFactory;
 
 	typedef s2::func<void()> EventOnClick;
 

@@ -76,8 +76,10 @@ na::Widget* na::LayoutLoader::LoadOneWidget()
 		return nullptr;
 	}
 
+	na::Widget* w = factory();
+	//TODO: Place style pre-loading here
 	LayoutNode node(this);
-	na::Widget* w = factory(node);
+	w->Load(node);
 
 	if (w == nullptr) {
 		printf("Factory for %s returned null\n", nodeName);
