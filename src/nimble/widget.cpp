@@ -103,6 +103,9 @@ glm::ivec4 na::Widget::GetLayout()
 
 void na::Widget::Load(LayoutNode &node)
 {
+	SetID(node.GetString("id", false, m_id));
+	SetClass(node.GetString("class", false, m_class));
+
 	SetVisible(node.GetBool("visible", false, m_visible));
 	SetLayoutModel(node.GetBool("flex", false, m_layModel == WidgetModel::Flex) ? WidgetModel::Flex : WidgetModel::Layout);
 
@@ -204,6 +207,27 @@ void na::Widget::AddChild(Widget* child)
 	m_children.add(child);
 
 	InvalidateLayout();
+}
+
+void na::Widget::SetTagName(const s2::string &name)
+{
+	m_tagname = name;
+}
+
+void na::Widget::SetID(const s2::string &id)
+{
+	if (m_id != id) {
+		//TODO: Invalidate style
+	}
+	m_id = id;
+}
+
+void na::Widget::SetClass(const s2::string &name)
+{
+	if (m_class != name) {
+		//TODO: Invalidate style
+	}
+	m_class = name;
 }
 
 void na::Widget::SetVisible(bool visible)

@@ -79,6 +79,7 @@ na::Widget* na::LayoutLoader::LoadOneWidget()
 	na::Widget* w = factory();
 	//TODO: Place style pre-loading here
 	LayoutNode node(this);
+	w->SetTagName(nodeName);
 	w->Load(node);
 
 	if (w == nullptr) {

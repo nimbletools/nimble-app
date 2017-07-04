@@ -52,8 +52,11 @@ namespace na
 		virtual void SetWindowSize(const glm::ivec2 &size);
 		virtual float GetPixelScale();
 
+		virtual void Selector(const s2::string &query, s2::list<Widget*> &out);
+
 		virtual void SetRoot(Widget* root);
 		virtual void LoadLayout(const s2::string &filename);
+		virtual void LoadStyle(const s2::string &filename);
 
 		virtual bool IsInvalidated();
 		virtual void InvalidateLayout();

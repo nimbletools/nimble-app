@@ -74,8 +74,7 @@ void na::Ini::Load(const char* filename)
 
 		if (*line == '[') {
 			currentSection = &Sections.add();
-			currentSection->Name = s2::string(line).trim(" []");
-			printf("Section: \"%s\"\n", (const char*)currentSection->Name);
+			currentSection->Name = s2::string(line).trim(" []");\
 			continue;
 		}
 

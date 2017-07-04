@@ -1,6 +1,6 @@
 <hbox anchor="fill" color="#330000ff">
 	<vbox anchor="left fillv" width="300" color="#003300ff" margin="5">
-		<label fontsize="24" margin="5" font="content/Roboto.ttf">
+		<label id="test" fontsize="24" margin="5" font="content/Roboto.ttf">
 			Nimble App Example
 		</label>
 

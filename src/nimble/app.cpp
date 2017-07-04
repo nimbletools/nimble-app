@@ -1,6 +1,8 @@
 #include <nimble/common.h>
 #include <nimble/app.h>
 #include <nimble/layoutloader.h>
+#include <nimble/ini.h>
+#include <nimble/widgetselector.h>
 
 #include <nimble/widgets/rect.h>
 #include <nimble/widgets/button.h>
@@ -186,6 +188,13 @@ float na::Application::GetPixelScale()
 	return m_bufferSize.x / m_windowSize.x;
 }
 
+void na::Application::Selector(const s2::string &query, s2::list<Widget*> &out)
+{
+	WidgetSelectorNode node;
+	node.Parse(query);
+	node.Match(m_root, out);
+}
+
 void na::Application::SetRoot(Widget* root)
 {
 	if (m_root != root) {
@@ -206,6 +215,21 @@ void na::Application::LoadLayout(const s2::string &filename)
 	SetRoot(loader.Load());
 
 	delete xml;
+}
+
+void na::Application::LoadStyle(const s2::string &filename)
+{
+	Ini ini(filename);
+	for (IniSection &section : ini.Sections) {
+		s2::list<na::Widget*> widgets;
+		Selector(section.Name, widgets);
+
+		for (na::Widget* w : widgets) {
+			for (IniPair &pair : section.Pairs) {
+				//TODO: Apply styles here
+			}
+		}
+	}
 }
 
 bool na::Application::IsInvalidated()

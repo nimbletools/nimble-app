@@ -62,6 +62,9 @@ namespace na
 		Widget* m_parent = nullptr;
 
 	private:
+		s2::string m_tagname;
+		s2::string m_id;
+		s2::string m_class;
 		bool m_visible = true;
 
 		s2::list<Widget*> m_children;
@@ -107,6 +110,15 @@ namespace na
 		virtual void AddChild(Widget* child);
 
 		inline bool IsHovering() { return m_hovering; }
+
+		inline s2::string GetTagName() { return m_tagname; }
+		virtual void SetTagName(const s2::string &name);
+
+		inline s2::string GetID() { return m_id; }
+		virtual void SetID(const s2::string &id);
+
+		inline s2::string GetClass() { return m_class; }
+		virtual void SetClass(const s2::string &name);
 
 		inline bool IsVisible() { return m_visible; }
 		virtual void SetVisible(bool visible);
