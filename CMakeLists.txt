@@ -50,6 +50,7 @@ set(SRC_NIMBLE
 	include/nimble/content.h
 	include/nimble/layoutloader.h
 	include/nimble/layoutnode.h
+	include/nimble/utils.h
 
 	src/nimble/app.cpp
 	src/nimble/contentmanager.cpp
@@ -58,6 +59,7 @@ set(SRC_NIMBLE
 	src/nimble/content.cpp
 	src/nimble/layoutloader.cpp
 	src/nimble/layoutnode.cpp
+	src/nimble/utils.cpp
 )
 
 set(SRC_NIMBLE_WIDGETS
