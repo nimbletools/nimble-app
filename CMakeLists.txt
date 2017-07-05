@@ -48,6 +48,7 @@ set(SRC_NIMBLE
 	include/nimble/widget.h
 	include/nimble/bounds.h
 	include/nimble/content.h
+	include/nimble/contentnode.h
 	include/nimble/layoutloader.h
 	include/nimble/layoutnode.h
 	include/nimble/utils.h
@@ -59,6 +60,7 @@ set(SRC_NIMBLE
 	src/nimble/widget.cpp
 	src/nimble/bounds.cpp
 	src/nimble/content.cpp
+	src/nimble/contentnode.cpp
 	src/nimble/layoutloader.cpp
 	src/nimble/layoutnode.cpp
 	src/nimble/utils.cpp
