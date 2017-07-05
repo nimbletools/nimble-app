@@ -14,7 +14,10 @@ namespace na
 
 	public:
 		LayoutNode(LayoutLoader* loader);
-		~LayoutNode();
+		virtual ~LayoutNode();
+
+		virtual const char* GetAttributeValue(const s2::string &name, bool required);
+		virtual const char* GetContentValue();
 
 		int GetInt(const s2::string &name, bool required = true, int def = 0);
 		float GetFloat(const s2::string &name, bool required = true, float def = 0.0f);
