@@ -95,5 +95,9 @@ glm::vec4 na::ContentNode::GetColor(const s2::string &name, bool required, const
 
 s2::string na::ContentNode::GetContent()
 {
-	return s2::string(GetContentValue()).trim();
+	const char* sz = GetContentValue();
+	if (sz == nullptr) {
+		return "";
+	}
+	return s2::string(sz).trim();
 }

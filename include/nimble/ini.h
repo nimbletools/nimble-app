@@ -4,17 +4,11 @@
 
 namespace na
 {
-	class Ini;
-
 	class IniPair
 	{
-	friend class Ini;
-
 	public:
 		s2::string Key;
-
-	private:
-		s2::string m_value;
+		s2::string Value;
 
 	public:
 		int AsInt();

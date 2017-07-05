@@ -3,15 +3,15 @@
 
 #include <nimble/utils.h>
 
-int na::IniPair::AsInt() { return atoi(m_value); }
-float na::IniPair::AsFloat() { return atof(m_value); }
-bool na::IniPair::AsBool() { return m_value == "true"; }
-s2::string na::IniPair::AsString() { return m_value; }
-glm::ivec2 na::IniPair::AsIvec2() { return ParseIvec2(m_value); }
-glm::vec2 na::IniPair::AsVec2() { return ParseVec2(m_value); }
-glm::vec3 na::IniPair::AsVec3() { return ParseVec3(m_value); }
-glm::vec4 na::IniPair::AsVec4() { return ParseVec4(m_value); }
-glm::vec4 na::IniPair::AsColor() { return ParseColor(m_value); }
+int na::IniPair::AsInt() { return atoi(Value); }
+float na::IniPair::AsFloat() { return atof(Value); }
+bool na::IniPair::AsBool() { return Value == "true"; }
+s2::string na::IniPair::AsString() { return Value; }
+glm::ivec2 na::IniPair::AsIvec2() { return ParseIvec2(Value); }
+glm::vec2 na::IniPair::AsVec2() { return ParseVec2(Value); }
+glm::vec3 na::IniPair::AsVec3() { return ParseVec3(Value); }
+glm::vec4 na::IniPair::AsVec4() { return ParseVec4(Value); }
+glm::vec4 na::IniPair::AsColor() { return ParseColor(Value); }
 
 na::IniPair* na::IniSection::Get(const char* key)
 {
@@ -86,7 +86,7 @@ void na::Ini::Load(const char* filename)
 
 		IniPair &pair = currentSection->Pairs.add();
 		pair.Key = parse[0].trim();
-		pair.m_value = parse[1].trim();
+		pair.Value = parse[1].trim();
 	}
 
 	fclose(fh);
