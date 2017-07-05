@@ -19,7 +19,7 @@ namespace na
 		ButtonWidget(Application* app);
 		virtual ~ButtonWidget();
 
-		virtual void Load(LayoutNode &node);
+		virtual void Load(ContentNode &node);
 
 		virtual void Draw(NVGcontext* vg);
 

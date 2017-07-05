@@ -38,7 +38,7 @@ namespace na
 		LabelWidget(Application* app);
 		virtual ~LabelWidget();
 
-		virtual void Load(LayoutNode &node);
+		virtual void Load(ContentNode &node);
 
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);

@@ -13,7 +13,7 @@ na::RectWidget::~RectWidget()
 {
 }
 
-void na::RectWidget::Load(LayoutNode &node)
+void na::RectWidget::Load(ContentNode &node)
 {
 	Widget::Load(node);
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "common.h"
-#include "contentnode.h"
+#include "../../common.h"
+#include "../../contentnode.h"
 
 namespace na
 {

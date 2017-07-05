@@ -3,6 +3,8 @@
 #include <nimble/app.h>
 #include <nimble/widget.h>
 
+#include <nimble/content/nodes/layoutnode.h>
+
 #include <irrXML.h>
 
 na::LayoutLoader::LayoutLoader(Application* app, irr::io::IrrXMLReader* xml)

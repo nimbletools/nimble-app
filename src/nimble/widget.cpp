@@ -101,7 +101,7 @@ glm::ivec4 na::Widget::GetLayout()
 	return glm::ivec4(rect[0], rect[1], rect[2], rect[3]);
 }
 
-void na::Widget::Load(LayoutNode &node)
+void na::Widget::Load(ContentNode &node)
 {
 	SetID(node.GetString("id", false, m_id));
 	SetClass(node.GetString("class", false, m_class));

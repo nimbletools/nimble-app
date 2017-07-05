@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "bounds.h"
-#include "layoutnode.h"
+#include "contentnode.h"
 
 typedef uint32_t lay_id;
 
@@ -94,7 +94,7 @@ namespace na
 		virtual glm::ivec4 GetLayout();
 
 	public:
-		virtual void Load(LayoutNode &node);
+		virtual void Load(ContentNode &node);
 
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);

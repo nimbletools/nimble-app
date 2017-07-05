@@ -15,7 +15,7 @@ na::ButtonWidget::~ButtonWidget()
 {
 }
 
-void na::ButtonWidget::Load(LayoutNode &node)
+void na::ButtonWidget::Load(ContentNode &node)
 {
 	RectWidget::Load(node);
 

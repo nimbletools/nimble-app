@@ -1,5 +1,5 @@
 #include <nimble/common.h>
-#include <nimble/layoutnode.h>
+#include <nimble/content/nodes/layoutnode.h>
 
 #include <nimble/layoutloader.h>
 

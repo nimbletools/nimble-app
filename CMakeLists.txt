@@ -50,7 +50,6 @@ set(SRC_NIMBLE
 	include/nimble/content.h
 	include/nimble/contentnode.h
 	include/nimble/layoutloader.h
-	include/nimble/layoutnode.h
 	include/nimble/utils.h
 	include/nimble/ini.h
 	include/nimble/widgetselector.h
@@ -62,7 +61,6 @@ set(SRC_NIMBLE
 	src/nimble/content.cpp
 	src/nimble/contentnode.cpp
 	src/nimble/layoutloader.cpp
-	src/nimble/layoutnode.cpp
 	src/nimble/utils.cpp
 	src/nimble/ini.cpp
 	src/nimble/widgetselector.cpp
@@ -84,12 +82,19 @@ set(SRC_NIMBLE_CONTENT
 	src/nimble/content/font.cpp
 )
 
+set(SRC_NIMBLE_CONTENT_NODES
+	include/nimble/content/nodes/layoutnode.h
+
+	src/nimble/content/nodes/layoutnode.cpp
+)
+
 add_library(nimbleapp
 	${SRC_EXT}
 	${SRC}
 	${SRC_NIMBLE}
 	${SRC_NIMBLE_WIDGETS}
 	${SRC_NIMBLE_CONTENT}
+	${SRC_NIMBLE_CONTENT_NODES}
 )
 
 source_group("ext" FILES ${SRC_EXT})
@@ -97,6 +102,7 @@ source_group("src" FILES ${SRC})
 source_group("src\\nimble" FILES ${SRC_NIMBLE})
 source_group("src\\nimble\\widgets" FILES ${SRC_NIMBLE_WIDGETS})
 source_group("src\\nimble\\content" FILES ${SRC_NIMBLE_CONTENT})
+source_group("src\\nimble\\content\\nodes" FILES ${SRC_NIMBLE_CONTENT_NODES})
 
 include_directories(
 	ext/nanovg/src/

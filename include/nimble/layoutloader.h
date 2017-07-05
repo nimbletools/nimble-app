@@ -1,7 +1,6 @@
 #pragma once
 
 #include "common.h"
-#include "layoutnode.h"
 
 #include <irrXML.h>
 

@@ -14,7 +14,7 @@ na::LabelWidget::~LabelWidget()
 {
 }
 
-void na::LabelWidget::Load(LayoutNode &node)
+void na::LabelWidget::Load(ContentNode &node)
 {
 	Widget::Load(node);
 
