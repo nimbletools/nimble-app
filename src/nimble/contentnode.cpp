@@ -18,7 +18,7 @@ float na::ContentNode::GetFloat(const s2::string &name, bool required, float def
 	if (v == nullptr) {
 		return def;
 	}
-	return atof(v);
+	return (float)atof(v);
 }
 
 bool na::ContentNode::GetBool(const s2::string &name, bool required, bool def)
@@ -93,11 +93,11 @@ glm::vec4 na::ContentNode::GetColor(const s2::string &name, bool required, const
 	return ParseColor(v);
 }
 
-s2::string na::ContentNode::GetContent()
+s2::string na::ContentNode::GetContent(const s2::string &def)
 {
 	const char* sz = GetContentValue();
 	if (sz == nullptr) {
-		return "";
+		return def;
 	}
 	return s2::string(sz).trim();
 }

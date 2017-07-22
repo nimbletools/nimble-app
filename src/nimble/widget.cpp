@@ -129,7 +129,7 @@ void na::Widget::Load(ContentNode &node)
 		s2::stringsplit parse = anchor.split(" ");
 		int anchorFlags = AnchorNone;
 
-		for (int i = 0; i < parse.len(); i++) {
+		for (size_t i = 0; i < parse.len(); i++) {
 			if (parse[i] == "none") { anchorFlags |= AnchorNone; }
 
 			else if (parse[i] == "left") { anchorFlags |= AnchorLeft; }

@@ -27,7 +27,7 @@ void na::ButtonWidget::Load(ContentNode &node)
 
 	SetTextColor(node.GetColor("textcolor", false, m_textColor));
 
-	SetText(node.GetContent());
+	SetText(node.GetContent(m_text));
 }
 
 void na::ButtonWidget::Draw(NVGcontext* vg)
@@ -41,7 +41,7 @@ void na::ButtonWidget::Draw(NVGcontext* vg)
 		nvgFontFaceId(vg, m_textFont->GetHandle());
 		nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
 		nvgFillColor(vg, nvgRGBAf(m_textColor.r, m_textColor.g, m_textColor.b, m_textColor.a));
-		nvgTextBox(vg, rect.x, rect.y + rect.w / 2.0f, rect.z, m_text, nullptr);
+		nvgTextBox(vg, (float)rect.x, (float)(rect.y + rect.w / 2.0f), (float)rect.z, m_text, nullptr);
 		nvgRestore(vg);
 	}
 }

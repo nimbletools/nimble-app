@@ -22,6 +22,6 @@ namespace na
 		glm::vec4 GetVec4(const s2::string &name, bool required = true, const glm::vec4 &def = glm::vec4());
 		glm::vec4 GetColor(const s2::string &name, bool required = true, const glm::vec4 &def = glm::vec4());
 
-		s2::string GetContent();
+		s2::string GetContent(const s2::string &def = "");
 	};
 }
