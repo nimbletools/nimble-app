@@ -4,7 +4,7 @@
 #include "widget.h"
 #include "contentmanager.h"
 
-class GLFWwindow;
+struct GLFWwindow;
 struct lay_context;
 struct NVGcontext;
 

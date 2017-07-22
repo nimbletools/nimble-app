@@ -51,6 +51,10 @@ na::IniPair* na::Ini::Get(const char* section, const char* key)
 void na::Ini::Load(const char* filename)
 {
 	FILE* fh = fopen(filename, "rb");
+	if (fh == nullptr) {
+		printf("Couldn't load %s\n", filename);
+		return;
+	}
 
 	IniSection* currentSection = (IniSection*)this;
 

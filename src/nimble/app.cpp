@@ -125,7 +125,7 @@ void na::Application::DoLayout()
 
 	lay_reset_context(m_layout);
 	lay_id root = lay_item(m_layout);
-	lay_set_size_xy(m_layout, root, m_bufferSize.x / pixelScale, m_bufferSize.y / pixelScale);
+	lay_set_size_xy(m_layout, root, (lay_scalar)(m_bufferSize.x / pixelScale), (lay_scalar)(m_bufferSize.y / pixelScale));
 
 	if (m_root != nullptr) {
 		m_root->DoLayout(m_layout, root);
@@ -187,7 +187,7 @@ void na::Application::SetWindowSize(const glm::ivec2 &size)
 
 float na::Application::GetPixelScale()
 {
-	return m_bufferSize.x / m_windowSize.x;
+	return m_bufferSize.x / (float)m_windowSize.x;
 }
 
 void na::Application::Selector(const s2::string &query, s2::list<Widget*> &out)

@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "")
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "")
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "")
+set(GLFW_INSTALL OFF CACHE BOOL "")
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
@@ -122,6 +123,11 @@ target_link_libraries(nimbleapp
 	${OPENGL_LIBRARIES}
 	${GLEW_LIBRARIES}
 )
+
+if(WIN32)
+	set(CMAKE_SUPPRESS_REGENERATION true)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
 
 if(NA_BUILD_EXAMPLE)
 	add_subdirectory(example)

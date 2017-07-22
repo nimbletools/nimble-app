@@ -30,7 +30,7 @@ void na::WidgetSelectorNode::Parse(s2::string query)
 {
 	const char* p = query;
 
-	char* pnext = strchr(p, ' ');
+	char* pnext = const_cast<char*>(strchr(p, ' '));
 	if (pnext != nullptr) {
 		*pnext = '\0';
 		pnext++;
