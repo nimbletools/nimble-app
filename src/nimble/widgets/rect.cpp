@@ -39,7 +39,7 @@ void na::RectWidget::Draw(NVGcontext* vg)
 
 		nvgSave(vg);
 		nvgBeginPath(vg);
-		nvgRect(vg, rect.x, rect.y, rect.z, rect.w);
+		nvgRect(vg, (float)rect.x, (float)rect.y, (float)rect.z, (float)rect.w);
 		nvgFillColor(vg, nvgRGBAf(m_color.r, m_color.g, m_color.b, m_color.a));
 		nvgFill(vg);
 		nvgRestore(vg);

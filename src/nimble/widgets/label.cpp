@@ -91,7 +91,7 @@ void na::LabelWidget::Draw(NVGcontext* vg)
 		nvgTextAlign(vg, align);
 		nvgFontSize(vg, m_fontSize);
 		nvgFillColor(vg, nvgRGBAf(m_color.r, m_color.g, m_color.b, m_color.a));
-		nvgTextBox(vg, rect.x, rect.y, rect.z, m_text, nullptr);
+		nvgTextBox(vg, (float)rect.x, (float)rect.y, (float)rect.z, m_text, nullptr);
 		nvgRestore(vg);
 	}
 
