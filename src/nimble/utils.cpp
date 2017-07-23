@@ -47,9 +47,9 @@ glm::vec2 na::ParseVec2(const char* sz)
 {
 	s2::stringsplit parse(sz, " ");
 	if (parse.len() == 1) {
-		return glm::vec2(atof(parse[0]));
+		return glm::vec2((float)atof(parse[0]));
 	} else if (parse.len() == 2) {
-		return glm::vec2(atof(parse[0]), atof(parse[1]));
+		return glm::vec2((float)atof(parse[0]), (float)atof(parse[1]));
 	} else {
 		printf("Unknown amount of parameters for vec2: %d\n", (int)parse.len());
 	}
@@ -61,9 +61,9 @@ glm::vec3 na::ParseVec3(const char* sz)
 {
 	s2::stringsplit parse(sz, " ");
 	if (parse.len() == 1) {
-		return glm::vec3(atof(parse[0]));
+		return glm::vec3((float)atof(parse[0]));
 	} else if (parse.len() == 3) {
-		return glm::vec3(atof(parse[0]), atof(parse[1]), atof(parse[2]));
+		return glm::vec3((float)atof(parse[0]), (float)atof(parse[1]), (float)atof(parse[2]));
 	} else {
 		printf("Unknown amount of parameters for vec3: %d\n", (int)parse.len());
 	}
@@ -75,9 +75,9 @@ glm::vec4 na::ParseVec4(const char* sz)
 {
 	s2::stringsplit parse(sz, " ");
 	if (parse.len() == 1) {
-		return glm::vec4(atof(parse[0]));
+		return glm::vec4((float)atof(parse[0]));
 	} else if (parse.len() == 4) {
-		return glm::vec4(atof(parse[0]), atof(parse[1]), atof(parse[2]), atof(parse[3]));
+		return glm::vec4((float)atof(parse[0]), (float)atof(parse[1]), (float)atof(parse[2]), (float)atof(parse[3]));
 	} else {
 		printf("Unknown amount of parameters for vec4: %d\n", (int)parse.len());
 	}
@@ -128,9 +128,9 @@ glm::vec4 na::ParseColor(const char* sz)
 	} else {
 		s2::stringsplit parse(sz, " ");
 		if (parse.len() == 1) {
-			return glm::vec4(atof(parse[0]));
+			return glm::vec4((float)atof(parse[0]));
 		} else if (parse.len() == 4) {
-			return glm::vec4(atof(parse[0]), atof(parse[1]), atof(parse[2]), atof(parse[3]));
+			return glm::vec4((float)atof(parse[0]), (float)atof(parse[1]), (float)atof(parse[2]), (float)atof(parse[3]));
 		} else {
 			printf("Unknown amount of parameters for color: %d\n", (int)parse.len());
 		}
