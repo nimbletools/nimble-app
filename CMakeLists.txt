@@ -47,24 +47,26 @@ set(SRC_NIMBLE
 	include/nimble/app.h
 	include/nimble/contentmanager.h
 	include/nimble/widget.h
+	include/nimble/widgetselector.h
+	include/nimble/widgetevent.h
 	include/nimble/bounds.h
 	include/nimble/content.h
 	include/nimble/contentnode.h
 	include/nimble/layoutloader.h
 	include/nimble/utils.h
 	include/nimble/ini.h
-	include/nimble/widgetselector.h
 
 	src/nimble/app.cpp
 	src/nimble/contentmanager.cpp
 	src/nimble/widget.cpp
+	src/nimble/widgetselector.cpp
+	src/nimble/widgetevent.cpp
 	src/nimble/bounds.cpp
 	src/nimble/content.cpp
 	src/nimble/contentnode.cpp
 	src/nimble/layoutloader.cpp
 	src/nimble/utils.cpp
 	src/nimble/ini.cpp
-	src/nimble/widgetselector.cpp
 )
 
 set(SRC_NIMBLE_WIDGETS

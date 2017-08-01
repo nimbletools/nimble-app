@@ -4,10 +4,10 @@
 			Nimble App Example
 		</label>
 
-		<button margin="5" font="content/Roboto.ttf">Create block</button>
-		<button id="test" margin="5" font="content/Roboto.ttf">Invalidate layout</button>
-		<button margin="5" font="content/Roboto.ttf">Resize window</button>
+		<button id="create_block" margin="5" font="content/Roboto.ttf">Create block</button>
+		<button id="invalidate_layout" margin="5" font="content/Roboto.ttf">Invalidate layout</button>
+		<button id="resize_window" margin="5" font="content/Roboto.ttf">Resize window</button>
 	</vbox>
 
-	<hbox wrapping="true" anchor="fill" margin="5" />
+	<hbox id="container" wrapping="true" anchor="fill" margin="5" />
 </hbox>

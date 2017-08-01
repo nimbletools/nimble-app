@@ -63,6 +63,31 @@ void na::WidgetSelectorNode::Parse(s2::string query)
 	}
 }
 
+na::Widget* na::WidgetSelectorNode::MatchOne(Widget* container)
+{
+	for (Widget* child : container->GetChildren()) {
+		if (!Matches(child)) {
+			Widget* ret = MatchOne(child);
+			if (ret != nullptr) {
+				return ret;
+			}
+			continue;
+		}
+
+		if (Subnodes.len() > 0) {
+			for (WidgetSelectorNode &subnode : Subnodes) {
+				Widget* ret = subnode.MatchOne(child);
+				if (ret != nullptr) {
+					return ret;
+				}
+			}
+		} else {
+			return child;
+		}
+	}
+	return nullptr;
+}
+
 void na::WidgetSelectorNode::Match(Widget* container, s2::list<Widget*> &out)
 {
 	for (Widget* child : container->GetChildren()) {

@@ -52,6 +52,9 @@ namespace na
 		virtual void SetWindowSize(const glm::ivec2 &size);
 		virtual float GetPixelScale();
 
+		virtual Widget* SelectorOne(const s2::string &query);
+		template<typename T>
+		inline T* Selector(const s2::string &query) { return (T*)SelectorOne(query); }
 		virtual void Selector(const s2::string &query, s2::list<Widget*> &out);
 
 		virtual void SetRoot(Widget* root);

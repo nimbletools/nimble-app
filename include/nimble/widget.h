@@ -3,6 +3,7 @@
 #include "common.h"
 #include "bounds.h"
 #include "contentnode.h"
+#include "widgetevent.h"
 
 typedef uint32_t lay_id;
 
@@ -15,8 +16,6 @@ namespace na
 	class Widget;
 
 	typedef s2::func<Widget*()> WidgetFactory;
-
-	typedef s2::func<void()> EventOnClick;
 
 	enum class WidgetDirection
 	{

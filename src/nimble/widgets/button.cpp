@@ -69,15 +69,8 @@ void na::ButtonWidget::OnMouseUp(int button)
 	if (IsHovering()) {
 		SetColor(glm::vec4(0.6f, 0.6f, 0.6f, 1));
 	}
-	if (m_funcOnClick != nullptr) {
-		m_funcOnClick();
-	}
+	OnClick(this);
 	RectWidget::OnMouseUp(button);
-}
-
-void na::ButtonWidget::FuncOnClick(const EventOnClick &func)
-{
-	m_funcOnClick = func;
 }
 
 void na::ButtonWidget::SetFont(const s2::string &name)

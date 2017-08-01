@@ -9,11 +9,12 @@ namespace na
 	class ButtonWidget : public RectWidget
 	{
 	private:
-		EventOnClick m_funcOnClick;
-
 		s2::string m_text;
 		Font* m_textFont = nullptr;
 		glm::vec4 m_textColor = glm::vec4(1, 1, 1, 1);
+
+	public:
+		EventList OnClick;
 
 	public:
 		ButtonWidget(Application* app);
@@ -27,8 +28,6 @@ namespace na
 		virtual void OnMouseLeave();
 		virtual void OnMouseDown(int button);
 		virtual void OnMouseUp(int button);
-
-		virtual void FuncOnClick(const EventOnClick &func);
 
 		inline Font* GetFont() { return m_textFont; }
 		virtual void SetFont(const s2::string &name);

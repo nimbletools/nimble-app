@@ -188,6 +188,13 @@ float na::Application::GetPixelScale()
 	return m_bufferSize.x / (float)m_windowSize.x;
 }
 
+na::Widget* na::Application::SelectorOne(const s2::string &query)
+{
+	WidgetSelectorNode node;
+	node.Parse(query);
+	return node.MatchOne(m_root);
+}
+
 void na::Application::Selector(const s2::string &query, s2::list<Widget*> &out)
 {
 	WidgetSelectorNode node;

@@ -35,6 +35,7 @@ namespace na
 	public:
 		void Parse(s2::string query);
 
+		Widget* MatchOne(Widget* container);
 		void Match(Widget* container, s2::list<Widget*> &out);
 		bool Matches(Widget* widget);
 	};
