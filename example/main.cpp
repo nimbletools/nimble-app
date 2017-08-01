@@ -6,7 +6,6 @@ public:
 	virtual void OnLoad()
 	{
 		LoadLayout("content/example.xml");
-		LoadStyle("content/style.ini");
 	}
 };
 

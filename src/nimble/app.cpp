@@ -8,8 +8,6 @@
 #include <nimble/widgets/button.h>
 #include <nimble/widgets/label.h>
 
-#include <nimble/content/nodes/stylenode.h>
-
 #include <GL/glew.h>
 #ifdef __APPLE__
 #define GLFW_INCLUDE_GLCOREARB
@@ -217,20 +215,6 @@ void na::Application::LoadLayout(const s2::string &filename)
 	SetRoot(loader.Load());
 
 	delete xml;
-}
-
-void na::Application::LoadStyle(const s2::string &filename)
-{
-	Ini ini(filename);
-	for (IniSection &section : ini.Sections) {
-		s2::list<na::Widget*> widgets;
-		Selector(section.Name, widgets);
-
-		for (na::Widget* w : widgets) {
-			StyleNode node(&section);
-			w->Load(node);
-		}
-	}
 }
 
 bool na::Application::IsInvalidated()

@@ -85,10 +85,8 @@ set(SRC_NIMBLE_CONTENT
 
 set(SRC_NIMBLE_CONTENT_NODES
 	include/nimble/content/nodes/layoutnode.h
-	include/nimble/content/nodes/stylenode.h
 
 	src/nimble/content/nodes/layoutnode.cpp
-	src/nimble/content/nodes/stylenode.cpp
 )
 
 add_library(nimbleapp

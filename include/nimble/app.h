@@ -56,7 +56,6 @@ namespace na
 
 		virtual void SetRoot(Widget* root);
 		virtual void LoadLayout(const s2::string &filename);
-		virtual void LoadStyle(const s2::string &filename);
 
 		virtual bool IsInvalidated();
 		virtual void InvalidateLayout();
