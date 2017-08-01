@@ -4,6 +4,7 @@
 #include <nimble/ini.h>
 #include <nimble/widgetselector.h>
 
+#include <nimble/widgets/managed.h>
 #include <nimble/widgets/rect.h>
 #include <nimble/widgets/button.h>
 #include <nimble/widgets/label.h>
@@ -60,36 +61,15 @@ static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	app->CallbackFramebufferResized(width, height);
 }
 
-na::Application::Application()
-	: Content(this)
+na::Application::Application() :
+	Content(this),
+	ManagedCode(this)
 {
 	m_windowSize = glm::ivec2(1024, 768);
 
 	InitializeLayout();
 
-	//TODO: Move these
-	WidgetFactories.add("rect", [this]() {
-		return new RectWidget(this);
-	});
-	WidgetFactories.add("hbox", [this]() {
-		RectWidget* ret = new RectWidget(this);
-		ret->SetLayoutDirection(WidgetDirection::Horizontal);
-		return ret;
-	});
-	WidgetFactories.add("vbox", [this]() {
-		RectWidget* ret = new RectWidget(this);
-		ret->SetLayoutDirection(WidgetDirection::Vertical);
-		return ret;
-	});
-	WidgetFactories.add("label", [this]() {
-		return new LabelWidget(this);
-	});
-	WidgetFactories.add("button", [this]() {
-		ButtonWidget* ret = new ButtonWidget(this);
-		ret->SetLayoutAnchor(AnchorFillH);
-		ret->SetSize(glm::ivec2(0, 26));
-		return ret;
-	});
+	ManagedCode.Initialize();
 }
 
 na::Application::~Application()
@@ -192,6 +172,10 @@ float na::Application::GetPixelScale()
 
 void na::Application::Selector(const s2::string &query, s2::list<Widget*> &out)
 {
+	if (m_root == nullptr) {
+		return;
+	}
+
 	WidgetSelectorNode node;
 	node.Parse(query);
 	node.Match(m_root, out);

@@ -1,0 +1,7 @@
+# Common output files
+Nimble.App*
+example*
+
+# Windows debug
+*.pdb
+*.ilk

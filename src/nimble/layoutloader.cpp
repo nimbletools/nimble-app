@@ -61,34 +61,31 @@ void na::LayoutLoader::LoadChildren(Widget* parent)
 na::Widget* na::LayoutLoader::LoadOneWidget()
 {
 	const char* nodeName = Reader->getNodeName();
+
 	WidgetFactory factory;
 
 	try {
 		auto pair = m_app->WidgetFactories.get_pair(nodeName);
 		factory = pair.value();
-	} catch (s2::dictexception) {
-		printf("No factory defined for %s\n", nodeName);
+	} catch (s2::dictexception) {}
+
+	na::Widget* w = nullptr;
+	if (factory != nullptr) {
+		w = factory();
+	} else {
+		w = m_app->ManagedCode.LoadWidget(nodeName);
+	}
+
+	if (w == nullptr) {
+		printf("Couldn't find appropriate widget for '%s'\n", nodeName);
 		SkipCurrentNode();
 		return nullptr;
 	}
 
-	if (factory == nullptr) {
-		printf("No factory set for %s\n", nodeName);
-		SkipCurrentNode();
-		return nullptr;
-	}
-
-	na::Widget* w = factory();
 	//TODO: Place style pre-loading here
 	LayoutNode node(this);
 	w->SetTagName(nodeName);
 	w->Load(node);
-
-	if (w == nullptr) {
-		printf("Factory for %s returned null\n", nodeName);
-		SkipCurrentNode();
-		return nullptr;
-	}
 
 	LoadChildren(w);
 	return w;

@@ -3,3 +3,7 @@ cmake-build-*/
 .idea/
 .DS_Store
 /*.dir/
+lib/
+obj/
+Fakes/
+FakesAssemblies/

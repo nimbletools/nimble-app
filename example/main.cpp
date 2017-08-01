@@ -5,8 +5,8 @@ class ExampleApplication : public na::Application
 public:
 	virtual void OnLoad()
 	{
-		LoadLayout("content/example.xml");
-		LoadStyle("content/style.ini");
+		LoadLayout("../content/example.xml");
+		LoadStyle("../content/style.ini");
 	}
 };
 

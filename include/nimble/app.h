@@ -3,6 +3,7 @@
 #include "common.h"
 #include "widget.h"
 #include "contentmanager.h"
+#include "managed/managedcode.h"
 
 struct GLFWwindow;
 struct lay_context;
@@ -37,6 +38,8 @@ namespace na
 	public:
 		ContentManager Content;
 		s2::dict<s2::string, WidgetFactory> WidgetFactories;
+
+		ManagedCode ManagedCode;
 
 	public:
 		Application();

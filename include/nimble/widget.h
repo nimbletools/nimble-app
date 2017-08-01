@@ -84,6 +84,7 @@ namespace na
 		Widget(Application* app);
 		virtual ~Widget();
 
+	public:
 		virtual void InvalidateLayout();
 		virtual void InvalidateRendering();
 
@@ -93,7 +94,6 @@ namespace na
 		virtual lay_id BeginLayout(lay_id parent);
 		virtual glm::ivec4 GetLayout();
 
-	public:
 		virtual void Load(ContentNode &node);
 
 		virtual void DoLayout(lay_context* l, lay_id parent);
