@@ -19,6 +19,10 @@ na::LayoutLoader::~LayoutLoader()
 
 void na::LayoutLoader::SkipCurrentNode()
 {
+	if (Reader->isEmptyElement()) {
+		return;
+	}
+
 	int depth = 1;
 	while (Reader->read()) {
 		switch (Reader->getNodeType()) {
@@ -90,7 +94,9 @@ na::Widget* na::LayoutLoader::LoadOneWidget()
 		return nullptr;
 	}
 
-	LoadChildren(w);
+	if (!Reader->isEmptyElement()) {
+		LoadChildren(w);
+	}
 	return w;
 }
 

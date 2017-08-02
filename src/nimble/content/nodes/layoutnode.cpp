@@ -23,6 +23,10 @@ const char* na::LayoutNode::GetAttributeValue(const s2::string &name, bool requi
 
 const char* na::LayoutNode::GetContentValue()
 {
+	if (m_loader->Reader->isEmptyElement()) {
+		return "";
+	}
+
 	while (m_loader->Reader->read()) {
 		auto nodeType = m_loader->Reader->getNodeType();
 

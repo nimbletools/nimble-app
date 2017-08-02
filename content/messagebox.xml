@@ -1,4 +1,4 @@
-<vbox width="400" height="150" color="#003300ff">
-	<label id="message" margin="5" font="content/Roboto.ttf" />
-	<button id="ok" margin="5" font="content/Roboto.ttf">##MessageBox.OK</button>
-</vbox>
+<rect width="400" height="150" color="#003300ff">
+	<label id="message" margin="5" anchor="top" font="content/Roboto.ttf" />
+	<button id="ok" margin="5" anchor="bottom" width="80" font="content/Roboto.ttf">##MessageBox.OK</button>
+</rect>
