@@ -53,7 +53,7 @@ void na::LabelWidget::Load(ContentNode &node)
 	int height = node.GetInt("height", false, m_size.y);
 	SetSize(glm::ivec2(width, height));
 
-	SetText(node.GetContent(m_text));
+	SetText(_(node.GetContent(m_text)));
 }
 
 void na::LabelWidget::DoLayout(lay_context* l, lay_id parent)

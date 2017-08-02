@@ -27,7 +27,7 @@ void na::ButtonWidget::Load(ContentNode &node)
 
 	SetTextColor(node.GetColor("textcolor", false, m_textColor));
 
-	SetText(node.GetContent(m_text));
+	SetText(_(node.GetContent(m_text)));
 }
 
 void na::ButtonWidget::Draw(NVGcontext* vg)

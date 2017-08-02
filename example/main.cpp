@@ -6,6 +6,7 @@ class ExampleApplication : public na::Application
 public:
 	virtual void OnLoad()
 	{
+		na::LoadLocalization("content/english.ini");
 		LoadLayout("content/example.xml");
 
 		auto wContainer = Selector<na::ButtonWidget>("#container");
