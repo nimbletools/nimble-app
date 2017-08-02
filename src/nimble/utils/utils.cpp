@@ -1,5 +1,5 @@
 #include <nimble/common.h>
-#include <nimble/utils.h>
+#include <nimble/utils/utils.h>
 
 uint8_t na::HexToByte(char c)
 {

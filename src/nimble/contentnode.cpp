@@ -1,7 +1,7 @@
 #include <nimble/common.h>
 #include <nimble/contentnode.h>
 
-#include <nimble/utils.h>
+#include <nimble/utils/utils.h>
 
 int na::ContentNode::GetInt(const s2::string &name, bool required, int def)
 {

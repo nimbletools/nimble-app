@@ -49,26 +49,18 @@ set(SRC_NIMBLE
 	include/nimble/widget.h
 	include/nimble/widgetselector.h
 	include/nimble/widgetevent.h
-	include/nimble/bounds.h
 	include/nimble/content.h
 	include/nimble/contentnode.h
 	include/nimble/layoutloader.h
-	include/nimble/utils.h
-	include/nimble/ini.h
-	include/nimble/localization.h
 
 	src/nimble/app.cpp
 	src/nimble/contentmanager.cpp
 	src/nimble/widget.cpp
 	src/nimble/widgetselector.cpp
 	src/nimble/widgetevent.cpp
-	src/nimble/bounds.cpp
 	src/nimble/content.cpp
 	src/nimble/contentnode.cpp
 	src/nimble/layoutloader.cpp
-	src/nimble/utils.cpp
-	src/nimble/ini.cpp
-	src/nimble/localization.cpp
 )
 
 set(SRC_NIMBLE_WIDGETS
@@ -79,6 +71,18 @@ set(SRC_NIMBLE_WIDGETS
 	src/nimble/widgets/rect.cpp
 	src/nimble/widgets/button.cpp
 	src/nimble/widgets/label.cpp
+)
+
+set(SRC_NIMBLE_UTILS
+	include/nimble/utils/utils.h
+	include/nimble/utils/bounds.h
+	include/nimble/utils/ini.h
+	include/nimble/utils/localization.h
+
+	src/nimble/utils/utils.cpp
+	src/nimble/utils/bounds.cpp
+	src/nimble/utils/ini.cpp
+	src/nimble/utils/localization.cpp
 )
 
 set(SRC_NIMBLE_CONTENT
@@ -98,6 +102,7 @@ add_library(nimbleapp
 	${SRC}
 	${SRC_NIMBLE}
 	${SRC_NIMBLE_WIDGETS}
+	${SRC_NIMBLE_UTILS}
 	${SRC_NIMBLE_CONTENT}
 	${SRC_NIMBLE_CONTENT_NODES}
 )
@@ -105,6 +110,7 @@ add_library(nimbleapp
 source_group("ext" FILES ${SRC_EXT})
 source_group("src" FILES ${SRC})
 source_group("src\\nimble" FILES ${SRC_NIMBLE})
+source_group("src\\nimble\\utils" FILES ${SRC_NIMBLE_UTILS})
 source_group("src\\nimble\\widgets" FILES ${SRC_NIMBLE_WIDGETS})
 source_group("src\\nimble\\content" FILES ${SRC_NIMBLE_CONTENT})
 source_group("src\\nimble\\content\\nodes" FILES ${SRC_NIMBLE_CONTENT_NODES})

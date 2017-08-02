@@ -1,10 +1,10 @@
 #include <nimble/common.h>
-#include <nimble/ini.h>
+#include <nimble/utils/ini.h>
 
-#include <nimble/utils.h>
+#include <nimble/utils/utils.h>
 
 int na::IniPair::AsInt() { return atoi(Value); }
-float na::IniPair::AsFloat() { return atof(Value); }
+float na::IniPair::AsFloat() { return (float)atof(Value); }
 bool na::IniPair::AsBool() { return Value == "true"; }
 s2::string na::IniPair::AsString() { return Value; }
 glm::ivec2 na::IniPair::AsIvec2() { return ParseIvec2(Value); }

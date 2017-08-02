@@ -1,6 +1,6 @@
 #include <nimble/common.h>
-#include <nimble/localization.h>
-#include <nimble/ini.h>
+#include <nimble/utils/localization.h>
+#include <nimble/utils/ini.h>
 
 static s2::dict<s2::string, s2::dict<s2::string, s2::string>> _strings;
 

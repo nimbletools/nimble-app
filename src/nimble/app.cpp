@@ -1,12 +1,13 @@
 #include <nimble/common.h>
 #include <nimble/app.h>
 #include <nimble/layoutloader.h>
-#include <nimble/ini.h>
 #include <nimble/widgetselector.h>
 
 #include <nimble/widgets/rect.h>
 #include <nimble/widgets/button.h>
 #include <nimble/widgets/label.h>
+
+#include <nimble/utils/ini.h>
 
 #include <GL/glew.h>
 #ifdef __APPLE__

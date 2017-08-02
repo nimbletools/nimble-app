@@ -3,7 +3,7 @@
 #include "common.h"
 #include "widget.h"
 #include "contentmanager.h"
-#include "localization.h"
+#include "utils/localization.h"
 
 struct GLFWwindow;
 struct lay_context;

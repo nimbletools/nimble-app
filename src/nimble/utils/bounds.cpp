@@ -1,4 +1,4 @@
-#include <nimble/bounds.h>
+#include <nimble/utils/bounds.h>
 
 na::Bounds::Bounds()
 {

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "common.h"
-#include "bounds.h"
 #include "contentnode.h"
 #include "widgetevent.h"
+#include "utils/bounds.h"
 
 typedef uint32_t lay_id;
 
