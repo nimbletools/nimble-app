@@ -21,15 +21,7 @@ public:
 		}
 	}
 
-	virtual bool DrawBehind()
-	{
-		return true;
-	}
-
-	virtual bool InputBehind()
-	{
-		return false;
-	}
+	virtual bool DrawBehind() { return true; }
 };
 
 class ExamplePage : public na::PageWidget

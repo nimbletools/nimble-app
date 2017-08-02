@@ -123,8 +123,12 @@ void na::Application::DoLayout()
 	lay_id root = lay_item(m_layout);
 	lay_set_size_xy(m_layout, root, (lay_scalar)(m_bufferSize.x / pixelScale), (lay_scalar)(m_bufferSize.y / pixelScale));
 
-	if (m_pages.len() > 0) {
-		m_pages.top()->DoLayout(m_layout, root);
+	for (int i = m_pages.len() - 1; i >= 0; i--) {
+		PageWidget* page = m_pages[i];
+		page->DoLayout(m_layout, root);
+		if (!page->DrawBehind() && !page->InputBehind()) {
+			break;
+		}
 	}
 
 	lay_run_context(m_layout);
@@ -143,8 +147,15 @@ void na::Application::Draw()
 	float pixelScale = GetPixelScale();
 	nvgScale(m_nvg, pixelScale, pixelScale);
 
-	if (m_pages.len() > 0) {
-		m_pages.top()->Draw(m_nvg);
+	int pageStartIndex = m_pages.len() - 1;
+	for (; pageStartIndex > 0; pageStartIndex--) {
+		if (!m_pages[pageStartIndex]->DrawBehind()) {
+			break;
+		}
+	}
+	for (int i = pageStartIndex; i < m_pages.len(); i++) {
+		PageWidget* page = m_pages[i];
+		page->Draw(m_nvg);
 	}
 
 	nvgEndFrame(m_nvg);
@@ -270,8 +281,12 @@ void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 		m_hoveringWidgets.remove(i);
 	}
 
-	if (m_pages.len() > 0) {
-		HandleHoverWidgets(m_pages.top(), point);
+	for (int i = m_pages.len() - 1; i >= 0; i--) {
+		PageWidget* page = m_pages[i];
+		HandleHoverWidgets(page, point);
+		if (!page->InputBehind()) {
+			break;
+		}
 	}
 }
 
