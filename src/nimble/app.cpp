@@ -153,7 +153,7 @@ void na::Application::Draw()
 			break;
 		}
 	}
-	for (int i = pageStartIndex; i < m_pages.len(); i++) {
+	for (int i = pageStartIndex; i < (int)m_pages.len(); i++) {
 		PageWidget* page = m_pages[i];
 		page->Draw(m_nvg);
 	}
@@ -271,6 +271,8 @@ void na::Application::InvalidateHoverWidgets()
 
 void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 {
+	m_lastCursorPos = point;
+
 	for (int i = (int)m_hoveringWidgets.len() - 1; i >= 0; i--) {
 		Widget* w = m_hoveringWidgets[i];
 		if (!w->IsHovering() || w->Contains(point)) {

@@ -35,6 +35,7 @@ namespace na
 		glm::ivec2 m_windowSize;
 		glm::ivec2 m_bufferSize;
 
+		glm::ivec2 m_lastCursorPos = glm::ivec2(-1, -1);
 		s2::list<Widget*> m_hoveringWidgets;
 
 	public:
