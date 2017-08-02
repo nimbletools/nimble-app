@@ -4,9 +4,10 @@ A framework for making cross-platform hardware accelerated applications.
 
 ## Blog
 
-I am writing blogposts on the development of this framework. Here are a few links to the relevant posts:
+I am writing blogposts on the development of this framework. Here are a few links to the latest posts:
 
-* [Hardware accelerated application framework in C++](https://codecat.nl/2017/07/hardware-accelerated-application-framework/)
+* 2017-08-02 [Implementing a stylesheet system is hard](https://codecat.nl/2017/08/nimble-app-progress/)
+* 2017-07-02 [Hardware accelerated application framework in C++](https://codecat.nl/2017/07/hardware-accelerated-application-framework/)
 
 ## Donate
 
