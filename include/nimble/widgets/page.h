@@ -16,5 +16,23 @@ namespace na
 		virtual void DoLayout(lay_context* l, lay_id parent);
 
 		virtual void LoadLayout(const s2::string &filename);
+
+		virtual bool DrawBehind();
+		virtual bool InputBehind();
+	};
+
+	enum class PageActionType
+	{
+		None,
+		Push,
+		Pop,
+	};
+
+	struct PageAction
+	{
+		PageActionType m_type;
+		PageWidget* m_page;
+
+		PageAction(PageActionType type, PageWidget* page = nullptr);
 	};
 }

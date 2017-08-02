@@ -7,6 +7,7 @@
 		<button id="create_block" margin="5" font="content/Roboto.ttf">##Main.CreateBlock</button>
 		<button id="invalidate_layout" margin="5" font="content/Roboto.ttf">##Main.InvalidateLayout</button>
 		<button id="resize_window" margin="5" font="content/Roboto.ttf">##Main.ResizeWindow</button>
+		<button id="message_box" margin="5" font="content/Roboto.ttf">##Main.MessageBox</button>
 	</vbox>
 
 	<hbox id="container" wrapping="true" anchor="fill" margin="5" />

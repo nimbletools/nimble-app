@@ -1,5 +1,36 @@
 #include <nimble/app.h>
+
+#include <nimble/widgets/label.h>
 #include <nimble/widgets/button.h>
+
+class MessageBoxPage : public na::PageWidget
+{
+public:
+	MessageBoxPage(na::Application* app, const s2::string &message) : PageWidget(app, "content/messagebox.xml")
+	{
+		auto wMessage = Selector<na::LabelWidget>("#message");
+		if (wMessage != nullptr) {
+			wMessage->SetText(message);
+		}
+
+		auto wButtonOK = Selector<na::ButtonWidget>("#ok");
+		if (wButtonOK != nullptr) {
+			wButtonOK->OnClick.add([this](na::Widget* sender, na::WidgetEvent e) {
+				m_app->PopPage();
+			});
+		}
+	}
+
+	virtual bool DrawBehind()
+	{
+		return true;
+	}
+
+	virtual bool InputBehind()
+	{
+		return false;
+	}
+};
 
 class ExamplePage : public na::PageWidget
 {
@@ -33,6 +64,13 @@ public:
 		if (buttonResizeWindow != nullptr) {
 			buttonResizeWindow->OnClick.add([this](na::Widget* sender, na::WidgetEvent e) {
 				m_app->SetWindowSize(glm::ivec2(1600, 900));
+			});
+		}
+
+		auto buttonMessageBox = Selector<na::ButtonWidget>("#message_box");
+		if (buttonMessageBox != nullptr) {
+			buttonMessageBox->OnClick.add([this](na::Widget* sender, na::WidgetEvent e) {
+				m_app->PushPage(new MessageBoxPage(m_app, na::_("##Main.MessageBoxPrompt")));
 			});
 		}
 	}

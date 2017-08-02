@@ -154,6 +154,8 @@ void na::Application::Draw()
 
 void na::Application::Frame()
 {
+	HandlePageQueue();
+
 	if (m_invalidatedLayout) {
 		m_invalidatedLayout = false;
 		DoLayout();
@@ -186,10 +188,26 @@ float na::Application::GetPixelScale()
 	return m_bufferSize.x / (float)m_windowSize.x;
 }
 
+void na::Application::HandlePageQueue()
+{
+	for (PageAction &pa : m_pageQueue) {
+		if (pa.m_type == PageActionType::Push) {
+			InvalidateHoverWidgets();
+			m_pages.push() = pa.m_page;
+			InvalidateLayout();
+
+		} else if (pa.m_type == PageActionType::Pop) {
+			InvalidateHoverWidgets();
+			delete m_pages.pop();
+			InvalidateLayout();
+		}
+	}
+	m_pageQueue.clear();
+}
+
 void na::Application::PushPage(PageWidget* page)
 {
-	m_pages.push() = page;
-	InvalidateLayout();
+	m_pageQueue.add(PageAction(PageActionType::Push, page));
 }
 
 void na::Application::PopPage()
@@ -198,8 +216,7 @@ void na::Application::PopPage()
 		printf("Can't pop page if there is only 1 page left!\n");
 		return;
 	}
-	delete m_pages.pop();
-	InvalidateLayout();
+	m_pageQueue.add(PageAction(PageActionType::Pop));
 }
 
 bool na::Application::IsInvalidated()
@@ -233,6 +250,14 @@ void na::Application::HandleHoverWidgets(Widget* w, const glm::ivec2 &point)
 	}
 }
 
+void na::Application::InvalidateHoverWidgets()
+{
+	for (auto w : m_hoveringWidgets) {
+		w->OnMouseLeave();
+	}
+	m_hoveringWidgets.clear();
+}
+
 void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 {
 	for (int i = (int)m_hoveringWidgets.len() - 1; i >= 0; i--) {
@@ -245,11 +270,9 @@ void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 		m_hoveringWidgets.remove(i);
 	}
 
-	if (m_pages.len() == 0) {
-		return;
+	if (m_pages.len() > 0) {
+		HandleHoverWidgets(m_pages.top(), point);
 	}
-
-	HandleHoverWidgets(m_pages.top(), point);
 }
 
 void na::Application::CallbackMouseButton(int button, int action, int mods)

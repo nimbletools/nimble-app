@@ -27,6 +27,7 @@ namespace na
 		bool m_initializedWindow = false;
 
 		s2::list<PageWidget*> m_pages;
+		s2::list<PageAction> m_pageQueue;
 
 		bool m_invalidatedLayout = true;
 		bool m_invalidatedRendering = true;
@@ -54,6 +55,7 @@ namespace na
 		virtual void SetWindowSize(const glm::ivec2 &size);
 		virtual float GetPixelScale();
 
+		virtual void HandlePageQueue();
 		virtual void PushPage(PageWidget* page);
 		virtual void PopPage();
 
@@ -62,6 +64,8 @@ namespace na
 		virtual void InvalidateRendering();
 
 		virtual void HandleHoverWidgets(Widget* w, const glm::ivec2 &point);
+		virtual void InvalidateHoverWidgets();
+
 		virtual void CallbackCursorPosition(const glm::ivec2 &point);
 		virtual void CallbackMouseButton(int button, int action, int mods);
 		virtual void CallbackWindowResized(int width, int height);

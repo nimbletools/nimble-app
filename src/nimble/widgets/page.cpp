@@ -37,3 +37,19 @@ void na::PageWidget::LoadLayout(const s2::string &filename)
 
 	delete xml;
 }
+
+bool na::PageWidget::DrawBehind()
+{
+	return false;
+}
+
+bool na::PageWidget::InputBehind()
+{
+	return false;
+}
+
+na::PageAction::PageAction(PageActionType type, PageWidget* page)
+{
+	m_type = type;
+	m_page = page;
+}
