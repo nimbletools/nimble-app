@@ -64,10 +64,12 @@ set(SRC_NIMBLE
 )
 
 set(SRC_NIMBLE_WIDGETS
+	include/nimble/widgets/page.h
 	include/nimble/widgets/rect.h
 	include/nimble/widgets/button.h
 	include/nimble/widgets/label.h
 
+	src/nimble/widgets/page.cpp
 	src/nimble/widgets/rect.cpp
 	src/nimble/widgets/button.cpp
 	src/nimble/widgets/label.cpp

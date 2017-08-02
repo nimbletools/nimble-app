@@ -1,7 +1,5 @@
 #include <nimble/common.h>
 #include <nimble/app.h>
-#include <nimble/layoutloader.h>
-#include <nimble/widgetselector.h>
 
 #include <nimble/widgets/rect.h>
 #include <nimble/widgets/button.h>
@@ -21,7 +19,6 @@
 #include <nanovg_gl.h>
 
 #include <layout.h>
-#include <irrXML.h>
 
 static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -126,8 +123,8 @@ void na::Application::DoLayout()
 	lay_id root = lay_item(m_layout);
 	lay_set_size_xy(m_layout, root, (lay_scalar)(m_bufferSize.x / pixelScale), (lay_scalar)(m_bufferSize.y / pixelScale));
 
-	if (m_root != nullptr) {
-		m_root->DoLayout(m_layout, root);
+	if (m_pages.len() > 0) {
+		m_pages.top()->DoLayout(m_layout, root);
 	}
 
 	lay_run_context(m_layout);
@@ -146,8 +143,8 @@ void na::Application::Draw()
 	float pixelScale = GetPixelScale();
 	nvgScale(m_nvg, pixelScale, pixelScale);
 
-	if (m_root != nullptr) {
-		m_root->Draw(m_nvg);
+	if (m_pages.len() > 0) {
+		m_pages.top()->Draw(m_nvg);
 	}
 
 	nvgEndFrame(m_nvg);
@@ -189,40 +186,20 @@ float na::Application::GetPixelScale()
 	return m_bufferSize.x / (float)m_windowSize.x;
 }
 
-na::Widget* na::Application::SelectorOne(const s2::string &query)
+void na::Application::PushPage(PageWidget* page)
 {
-	WidgetSelectorNode node;
-	node.Parse(query);
-	return node.MatchOne(m_root);
+	m_pages.push() = page;
+	InvalidateLayout();
 }
 
-void na::Application::Selector(const s2::string &query, s2::list<Widget*> &out)
+void na::Application::PopPage()
 {
-	WidgetSelectorNode node;
-	node.Parse(query);
-	node.Match(m_root, out);
-}
-
-void na::Application::SetRoot(Widget* root)
-{
-	if (m_root != root) {
-		InvalidateLayout();
-	}
-	m_root = root;
-}
-
-void na::Application::LoadLayout(const s2::string &filename)
-{
-	irr::io::IrrXMLReader* xml = irr::io::createIrrXMLReader(filename);
-	if (xml == nullptr) {
-		printf("Couldn't open %s\n", (const char*)filename);
+	if (m_pages.len() == 1) {
+		printf("Can't pop page if there is only 1 page left!\n");
 		return;
 	}
-
-	LayoutLoader loader(this, xml);
-	SetRoot(loader.Load());
-
-	delete xml;
+	delete m_pages.pop();
+	InvalidateLayout();
 }
 
 bool na::Application::IsInvalidated()
@@ -268,11 +245,11 @@ void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 		m_hoveringWidgets.remove(i);
 	}
 
-	if (m_root == nullptr) {
+	if (m_pages.len() == 0) {
 		return;
 	}
 
-	HandleHoverWidgets(m_root, point);
+	HandleHoverWidgets(m_pages.top(), point);
 }
 
 void na::Application::CallbackMouseButton(int button, int action, int mods)

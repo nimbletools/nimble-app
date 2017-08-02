@@ -108,6 +108,11 @@ namespace na
 		inline const s2::list<Widget*> &GetChildren() { return m_children; }
 		virtual void AddChild(Widget* child);
 
+		virtual Widget* SelectorOne(const s2::string &query);
+		template<typename T>
+		inline T* Selector(const s2::string &query) { return (T*)SelectorOne(query); }
+		virtual void Selector(const s2::string &query, s2::list<Widget*> &out);
+
 		inline bool IsHovering() { return m_hovering; }
 
 		inline s2::string GetTagName() { return m_tagname; }

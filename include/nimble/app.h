@@ -4,6 +4,7 @@
 #include "widget.h"
 #include "contentmanager.h"
 #include "utils/localization.h"
+#include "widgets/page.h"
 
 struct GLFWwindow;
 struct lay_context;
@@ -25,7 +26,7 @@ namespace na
 		bool m_initializedRendering = false;
 		bool m_initializedWindow = false;
 
-		Widget* m_root = nullptr;
+		s2::list<PageWidget*> m_pages;
 
 		bool m_invalidatedLayout = true;
 		bool m_invalidatedRendering = true;
@@ -53,13 +54,8 @@ namespace na
 		virtual void SetWindowSize(const glm::ivec2 &size);
 		virtual float GetPixelScale();
 
-		virtual Widget* SelectorOne(const s2::string &query);
-		template<typename T>
-		inline T* Selector(const s2::string &query) { return (T*)SelectorOne(query); }
-		virtual void Selector(const s2::string &query, s2::list<Widget*> &out);
-
-		virtual void SetRoot(Widget* root);
-		virtual void LoadLayout(const s2::string &filename);
+		virtual void PushPage(PageWidget* page);
+		virtual void PopPage();
 
 		virtual bool IsInvalidated();
 		virtual void InvalidateLayout();

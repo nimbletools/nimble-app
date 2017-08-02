@@ -1,5 +1,6 @@
 #include <nimble/common.h>
 #include <nimble/widget.h>
+#include <nimble/widgetselector.h>
 #include <nimble/app.h>
 
 #include <layout.h>
@@ -207,6 +208,20 @@ void na::Widget::AddChild(Widget* child)
 	m_children.add(child);
 
 	InvalidateLayout();
+}
+
+na::Widget* na::Widget::SelectorOne(const s2::string &query)
+{
+	WidgetSelectorNode node;
+	node.Parse(query);
+	return node.MatchOne(this);
+}
+
+void na::Widget::Selector(const s2::string &query, s2::list<Widget*> &out)
+{
+	WidgetSelectorNode node;
+	node.Parse(query);
+	node.Match(this, out);
 }
 
 void na::Widget::SetTagName(const s2::string &name)
