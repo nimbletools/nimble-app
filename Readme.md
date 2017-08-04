@@ -11,7 +11,7 @@ I am writing blogposts on the development of this framework. Here are a few link
 
 ## Donate
 
-[Consider donating](https://paypal.me/ansjh) if you like my work!
+[Consider donating](https://paypal.me/ansjh) if you like my work! You can also donate with Bitcoin: `17QCAmQKDSkfcnvYqeo2Fgg6c7GpaiakFf`
 
 ## License
 
