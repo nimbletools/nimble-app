@@ -76,6 +76,7 @@ void na::LabelWidget::Draw(NVGcontext* vg)
 		glm::ivec4 rect = GetLayout();
 
 		nvgSave(vg);
+		nvgReset(vg);
 		nvgFontFaceId(vg, m_font->GetHandle());
 		int align = 0;
 		switch (m_alignH) {

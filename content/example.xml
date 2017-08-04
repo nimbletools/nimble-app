@@ -10,5 +10,7 @@
 		<button id="message_box" margin="5" font="content/Roboto.ttf">##Main.MessageBox</button>
 	</vbox>
 
-	<hbox id="container" wrapping="true" anchor="fill" margin="5" />
+	<hbox id="container" wrapping="true" anchor="fill" margin="5">
+		<text font="content/Roboto.ttf" width="400" height="26" />
+	</hbox>
 </hbox>

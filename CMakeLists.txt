@@ -68,11 +68,13 @@ set(SRC_NIMBLE_WIDGETS
 	include/nimble/widgets/rect.h
 	include/nimble/widgets/button.h
 	include/nimble/widgets/label.h
+	include/nimble/widgets/text.h
 
 	src/nimble/widgets/page.cpp
 	src/nimble/widgets/rect.cpp
 	src/nimble/widgets/button.cpp
 	src/nimble/widgets/label.cpp
+	src/nimble/widgets/text.cpp
 )
 
 set(SRC_NIMBLE_UTILS
@@ -118,6 +120,7 @@ source_group("src\\nimble\\content" FILES ${SRC_NIMBLE_CONTENT})
 source_group("src\\nimble\\content\\nodes" FILES ${SRC_NIMBLE_CONTENT_NODES})
 
 include_directories(
+	ext/stb/
 	ext/nanovg/src/
 	ext/scratch2/scratch2/
 	ext/layout/

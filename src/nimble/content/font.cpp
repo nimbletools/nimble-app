@@ -40,3 +40,27 @@ glm::vec2 na::Font::Measure(const s2::string &text, float size)
 
 	return glm::vec2(bounds[2], bounds[3]);
 }
+
+void na::Font::BeginMeasureMode(float size)
+{
+	NVGcontext* vg = m_app->GetNVG();
+	nvgSave(vg);
+	nvgReset(vg); //TODO: why is this needed?
+	nvgFontFaceId(vg, m_handle);
+	nvgFontSize(vg, size);
+	nvgTextAlign(vg, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
+}
+
+glm::vec2 na::Font::MeasureNow(const s2::string &text)
+{
+	NVGcontext* vg = m_app->GetNVG();
+	float bounds[4];
+	nvgTextBounds(vg, 0, 0, text, nullptr, bounds);
+	return glm::vec2(bounds[2], bounds[3]);
+}
+
+void na::Font::EndMeasureMode()
+{
+	NVGcontext* vg = m_app->GetNVG();
+	nvgRestore(vg);
+}

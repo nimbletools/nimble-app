@@ -26,8 +26,8 @@ namespace na
 
 		virtual void OnMouseEnter();
 		virtual void OnMouseLeave();
-		virtual void OnMouseDown(int button);
-		virtual void OnMouseUp(int button);
+		virtual void OnMouseDown(int button, const glm::ivec2 &point);
+		virtual void OnMouseUp(int button, const glm::ivec2 &point);
 
 		inline Font* GetFont() { return m_textFont; }
 		virtual void SetFont(const s2::string &name);

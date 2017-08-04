@@ -4,6 +4,7 @@
 #include <nimble/widgets/rect.h>
 #include <nimble/widgets/button.h>
 #include <nimble/widgets/label.h>
+#include <nimble/widgets/text.h>
 
 #include <nimble/utils/ini.h>
 
@@ -85,6 +86,9 @@ na::Application::Application()
 		ret->SetLayoutAnchor(AnchorFillH);
 		ret->SetSize(glm::ivec2(0, 26));
 		return ret;
+	});
+	WidgetFactories.add("text", [this]() {
+		return new TextWidget(this);
 	});
 }
 
@@ -276,6 +280,7 @@ void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 	for (int i = (int)m_hoveringWidgets.len() - 1; i >= 0; i--) {
 		Widget* w = m_hoveringWidgets[i];
 		if (!w->IsHovering() || w->Contains(point)) {
+			w->OnMouseMove(w->ToRelativePoint(point));
 			continue;
 		}
 
@@ -300,9 +305,9 @@ void na::Application::CallbackMouseButton(int button, int action, int mods)
 
 	Widget* w = m_hoveringWidgets[m_hoveringWidgets.len() - 1];
 	if (action == GLFW_PRESS) {
-		w->OnMouseDown(button);
+		w->OnMouseDown(button, w->ToRelativePoint(m_lastCursorPos));
 	} else if (action == GLFW_RELEASE) {
-		w->OnMouseUp(button);
+		w->OnMouseUp(button, w->ToRelativePoint(m_lastCursorPos));
 	}
 }
 

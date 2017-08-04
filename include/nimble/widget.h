@@ -99,11 +99,14 @@ namespace na
 		virtual void Draw(NVGcontext* vg);
 
 		virtual bool Contains(const glm::ivec2 &absPoint);
+		virtual glm::ivec2 ToRelativePoint(const glm::ivec2 &absPoint);
+		virtual glm::ivec2 ToAbsolutePoint(const glm::ivec2 &point);
 
 		virtual void OnMouseEnter();
 		virtual void OnMouseLeave();
-		virtual void OnMouseDown(int button);
-		virtual void OnMouseUp(int button);
+		virtual void OnMouseDown(int button, const glm::ivec2 &point);
+		virtual void OnMouseMove(const glm::ivec2 &point);
+		virtual void OnMouseUp(int button, const glm::ivec2 &point);
 
 		inline const s2::list<Widget*> &GetChildren() { return m_children; }
 		virtual void AddChild(Widget* child);

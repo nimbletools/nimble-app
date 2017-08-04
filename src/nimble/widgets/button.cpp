@@ -58,19 +58,19 @@ void na::ButtonWidget::OnMouseLeave()
 	RectWidget::OnMouseLeave();
 }
 
-void na::ButtonWidget::OnMouseDown(int button)
+void na::ButtonWidget::OnMouseDown(int button, const glm::ivec2 &point)
 {
 	SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
-	RectWidget::OnMouseDown(button);
+	RectWidget::OnMouseDown(button, point);
 }
 
-void na::ButtonWidget::OnMouseUp(int button)
+void na::ButtonWidget::OnMouseUp(int button, const glm::ivec2 &point)
 {
 	if (IsHovering()) {
 		SetColor(glm::vec4(0.6f, 0.6f, 0.6f, 1));
 	}
 	OnClick(this);
-	RectWidget::OnMouseUp(button);
+	RectWidget::OnMouseUp(button, point);
 }
 
 void na::ButtonWidget::SetFont(const s2::string &name)

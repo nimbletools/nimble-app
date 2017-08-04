@@ -182,6 +182,24 @@ bool na::Widget::Contains(const glm::ivec2 &absPoint)
 	  (absPoint.y >= rect.y && absPoint.y < rect.y + rect.w);
 }
 
+glm::ivec2 na::Widget::ToRelativePoint(const glm::ivec2 &absPoint)
+{
+	glm::ivec4 rect = GetLayout();
+	return glm::ivec2(
+		absPoint.x - rect.x,
+		absPoint.y - rect.y
+	);
+}
+
+glm::ivec2 na::Widget::ToAbsolutePoint(const glm::ivec2 &point)
+{
+	glm::ivec4 rect = GetLayout();
+	return glm::ivec2(
+		point.x + rect.x,
+		point.y + rect.y
+	);
+}
+
 void na::Widget::OnMouseEnter()
 {
 	m_hovering = true;
@@ -192,11 +210,15 @@ void na::Widget::OnMouseLeave()
 	m_hovering = false;
 }
 
-void na::Widget::OnMouseDown(int button)
+void na::Widget::OnMouseDown(int button, const glm::ivec2 &point)
 {
 }
 
-void na::Widget::OnMouseUp(int button)
+void na::Widget::OnMouseMove(const glm::ivec2 &point)
+{
+}
+
+void na::Widget::OnMouseUp(int button, const glm::ivec2 &point)
 {
 }
 

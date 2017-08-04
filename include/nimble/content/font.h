@@ -19,5 +19,9 @@ namespace na
 		int GetHandle();
 
 		glm::vec2 Measure(const s2::string &text, float size = 16.0f);
+
+		void BeginMeasureMode(float size = 16.0f);
+		glm::vec2 MeasureNow(const s2::string &text);
+		void EndMeasureMode();
 	};
 }
