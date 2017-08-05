@@ -119,14 +119,20 @@ source_group("src\\nimble\\widgets" FILES ${SRC_NIMBLE_WIDGETS})
 source_group("src\\nimble\\content" FILES ${SRC_NIMBLE_CONTENT})
 source_group("src\\nimble\\content\\nodes" FILES ${SRC_NIMBLE_CONTENT_NODES})
 
+set(INCLUDES
+	${CMAKE_CURRENT_SOURCE_DIR}/include/
+	${CMAKE_CURRENT_SOURCE_DIR}/ext/scratch2/scratch2/
+	${CMAKE_CURRENT_SOURCE_DIR}/ext/glm/glm/
+)
+
+set(NIMBLE_APP_INCLUDE_DIRS ${INCLUDES} PARENT_SCOPE)
+
 include_directories(
+	${INCLUDES}
 	ext/stb/
 	ext/nanovg/src/
-	ext/scratch2/scratch2/
 	ext/layout/
-	ext/glm/glm/
 	ext/irrxml/
-	include/
 	${GLEW_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}
 )
