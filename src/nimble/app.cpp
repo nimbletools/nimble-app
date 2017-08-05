@@ -175,9 +175,11 @@ void na::Application::Draw()
 			break;
 		}
 	}
-	for (int i = pageStartIndex; i < (int)m_pages.len(); i++) {
-		PageWidget* page = m_pages[i];
-		page->Draw(m_nvg);
+	if (pageStartIndex >= 0) {
+		for (int i = pageStartIndex; i < (int)m_pages.len(); i++) {
+			PageWidget* page = m_pages[i];
+			page->Draw(m_nvg);
+		}
 	}
 
 	nvgEndFrame(m_nvg);
