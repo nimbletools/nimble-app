@@ -57,6 +57,24 @@ static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	app->CallbackFramebufferResized(width, height);
 }
 
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	na::Application* app = (na::Application*)glfwGetWindowUserPointer(window);
+	if (app == nullptr) {
+		return;
+	}
+	app->CallbackKey(key, scancode, action, mods);
+}
+
+static void char_mods_callback(GLFWwindow* window, unsigned int codepoint, int mods)
+{
+	na::Application* app = (na::Application*)glfwGetWindowUserPointer(window);
+	if (app == nullptr) {
+		return;
+	}
+	app->CallbackCharMods(codepoint, mods);
+}
+
 na::Application::Application()
 	: Content(this)
 {
@@ -207,12 +225,12 @@ void na::Application::HandlePageQueue()
 {
 	for (PageAction &pa : m_pageQueue) {
 		if (pa.m_type == PageActionType::Push) {
-			InvalidateHoverWidgets();
+			InvalidateInputWidgets();
 			m_pages.push() = pa.m_page;
 			InvalidateLayout();
 
 		} else if (pa.m_type == PageActionType::Pop) {
-			InvalidateHoverWidgets();
+			InvalidateInputWidgets();
 			delete m_pages.pop();
 			InvalidateLayout();
 		}
@@ -265,12 +283,28 @@ void na::Application::HandleHoverWidgets(Widget* w, const glm::ivec2 &point)
 	}
 }
 
-void na::Application::InvalidateHoverWidgets()
+void na::Application::InvalidateInputWidgets()
 {
 	for (auto w : m_hoveringWidgets) {
 		w->OnMouseLeave();
 	}
 	m_hoveringWidgets.clear();
+
+	SetFocusWidget(nullptr);
+}
+
+void na::Application::SetFocusWidget(Widget* w)
+{
+	Widget* focusBefore = m_focusWidget;
+	m_focusWidget = w;
+
+	if (focusBefore != nullptr) {
+		focusBefore->OnFocusLost();
+	}
+
+	if (w != nullptr) {
+		w->OnFocus();
+	}
 }
 
 void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
@@ -306,6 +340,11 @@ void na::Application::CallbackMouseButton(int button, int action, int mods)
 	Widget* w = m_hoveringWidgets[m_hoveringWidgets.len() - 1];
 	if (action == GLFW_PRESS) {
 		w->OnMouseDown(button, w->ToRelativePoint(m_lastCursorPos));
+		if (w->CanHaveFocus()) {
+			SetFocusWidget(w);
+		} else {
+			SetFocusWidget(nullptr);
+		}
 	} else if (action == GLFW_RELEASE) {
 		w->OnMouseUp(button, w->ToRelativePoint(m_lastCursorPos));
 	}
@@ -327,6 +366,29 @@ void na::Application::CallbackFramebufferResized(int width, int height)
 	InvalidateLayout();
 
 	m_bufferSize = glm::ivec2(width, height);
+}
+
+void na::Application::CallbackKey(int key, int scancode, int action, int mods)
+{
+	if (m_focusWidget == nullptr) {
+		return;
+	}
+
+	if (action == GLFW_PRESS) {
+		m_focusWidget->OnKeyDown(key, scancode, mods);
+		m_focusWidget->OnKeyPress(key, scancode, mods);
+	} else if (action == GLFW_REPEAT) {
+		m_focusWidget->OnKeyPress(key, scancode, mods);
+	} else if (action == GLFW_RELEASE) {
+		m_focusWidget->OnKeyUp(key, scancode, mods);
+	}
+}
+
+void na::Application::CallbackCharMods(unsigned int ch, int mods)
+{
+	if (m_focusWidget != nullptr) {
+		m_focusWidget->OnChar(ch, mods);
+	}
 }
 
 void na::Application::InitializeLayout()
@@ -368,6 +430,8 @@ void na::Application::InitializeWindow()
 	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 	glfwSetWindowSizeCallback(m_window, window_size_callback);
 	glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
+	glfwSetKeyCallback(m_window, key_callback);
+	glfwSetCharModsCallback(m_window, char_mods_callback);
 	glfwMakeContextCurrent(m_window);
 
 	glewExperimental = GL_TRUE;

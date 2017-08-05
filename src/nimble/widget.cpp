@@ -222,6 +222,45 @@ void na::Widget::OnMouseUp(int button, const glm::ivec2 &point)
 {
 }
 
+bool na::Widget::HasFocus()
+{
+	return m_app->GetFocusWidget() == this;
+}
+
+bool na::Widget::CanHaveFocus()
+{
+	return false;
+}
+
+void na::Widget::SetFocus()
+{
+	m_app->SetFocusWidget(this);
+}
+
+void na::Widget::OnFocus()
+{
+}
+
+void na::Widget::OnFocusLost()
+{
+}
+
+void na::Widget::OnKeyDown(int key, int scancode, int mods)
+{
+}
+
+void na::Widget::OnKeyPress(int key, int scancode, int mods)
+{
+}
+
+void na::Widget::OnKeyUp(int key, int scancode, int mods)
+{
+}
+
+void na::Widget::OnChar(unsigned int ch, int mods)
+{
+}
+
 void na::Widget::AddChild(Widget* child)
 {
 	assert(child->m_parent == nullptr);

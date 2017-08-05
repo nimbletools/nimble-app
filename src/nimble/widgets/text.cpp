@@ -155,10 +155,16 @@ void na::TextWidget::Draw(NVGcontext* vg)
 		nvgRect(vg, (float)rect.x, (float)rect.y, (float)rect.z, (float)rect.w);
 		nvgFillColor(vg, nvgRGBAf(m_color.r, m_color.g, m_color.b, m_color.a));
 		nvgFill(vg);
+
+		if (HasFocus()) {
+			nvgStrokeWidth(vg, 1);
+			nvgStrokeColor(vg, nvgRGBAf(0.2f, 0.2f, 1.0f, 1.0f));
+			nvgStroke(vg);
+		}
 	}
 
 	if (m_colorText.a > 0.0f) {
-		nvgScissor(vg, (float)rect.x, (float)rect.x, (float)rect.z, (float)rect.w);
+		nvgScissor(vg, (float)rect.x, (float)rect.y, (float)rect.z, (float)rect.w);
 
 		nvgFontFaceId(vg, m_font->GetHandle());
 		nvgFontSize(vg, m_fontSize);
@@ -168,6 +174,7 @@ void na::TextWidget::Draw(NVGcontext* vg)
 		if (m_multiline) {
 			breakWidth = (float)rect.z;
 		}
+		nvgTextAlign(vg, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
 		nvgTextBox(vg, (float)rect.x, (float)rect.y, breakWidth, m_text, nullptr);
 	}
 
@@ -184,7 +191,7 @@ void na::TextWidget::OnMouseDown(int button, const glm::ivec2 &point)
 		m_font->BeginMeasureMode(m_fontSize);
 
 		m_dragging = true;
-		stb_textedit_click(this, &m_textEditState, point.x, point.y);
+		stb_textedit_click(this, &m_textEditState, (float)point.x, (float)point.y);
 
 		m_font->EndMeasureMode();
 	}
@@ -197,7 +204,7 @@ void na::TextWidget::OnMouseMove(const glm::ivec2 &point)
 	if (m_dragging && m_font != nullptr) {
 		m_font->BeginMeasureMode(m_fontSize);
 
-		stb_textedit_drag(this, &m_textEditState, point.x, point.y);
+		stb_textedit_drag(this, &m_textEditState, (float)point.x, (float)point.y);
 
 		m_font->EndMeasureMode();
 	}
@@ -210,6 +217,53 @@ void na::TextWidget::OnMouseUp(int button, const glm::ivec2 &point)
 	if (button == GLFW_MOUSE_BUTTON_1) {
 		m_dragging = false;
 	}
+}
+
+bool na::TextWidget::CanHaveFocus()
+{
+	return true;
+}
+
+void na::TextWidget::OnFocus()
+{
+	InvalidateRendering();
+}
+
+void na::TextWidget::OnFocusLost()
+{
+	InvalidateRendering();
+}
+
+void na::TextWidget::OnKeyPress(int key, int scancode, int mods)
+{
+	if (mods & GLFW_MOD_SHIFT) {
+		key |= STB_TEXTEDIT_K_SHIFT;
+	}
+
+	if (mods & GLFW_MOD_CONTROL) {
+		key |= STB_TEXTEDIT_K_CONTROL;
+	}
+
+	key |= STB_TEXTEDIT_K_KEYDOWN;
+
+	m_font->BeginMeasureMode(m_fontSize);
+
+	stb_textedit_key(this, &m_textEditState, key);
+
+	m_font->EndMeasureMode();
+}
+
+void na::TextWidget::OnChar(unsigned int ch, int mods)
+{
+	if (mods & GLFW_MOD_SHIFT) {
+		ch |= STB_TEXTEDIT_K_SHIFT;
+	}
+
+	m_font->BeginMeasureMode(m_fontSize);
+
+	stb_textedit_key(this, &m_textEditState, (int)ch);
+
+	m_font->EndMeasureMode();
 }
 
 void na::TextWidget::SetText(const s2::string &text)
@@ -272,11 +326,14 @@ void na::TextWidget::SetMultiline(bool multiline)
 bool na::TextWidget::DeleteChars(int i, int num)
 {
 	m_text.remove(i, num);
+	InvalidateRendering();
 	return true;
 }
 
 bool na::TextWidget::InsertChars(int i, const char* sz, int num)
 {
 	m_text.insert(sz, i, num);
+	InvalidateRendering();
+	printf("Text: \"%s\"", m_text.c_str());
 	return true;
 }

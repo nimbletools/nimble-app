@@ -37,6 +37,7 @@ namespace na
 
 		glm::ivec2 m_lastCursorPos = glm::ivec2(-1, -1);
 		s2::list<Widget*> m_hoveringWidgets;
+		Widget* m_focusWidget = nullptr;
 
 	public:
 		ContentManager Content;
@@ -65,12 +66,17 @@ namespace na
 		virtual void InvalidateRendering();
 
 		virtual void HandleHoverWidgets(Widget* w, const glm::ivec2 &point);
-		virtual void InvalidateHoverWidgets();
+		virtual void InvalidateInputWidgets();
+
+		inline Widget* GetFocusWidget() { return m_focusWidget; }
+		virtual void SetFocusWidget(Widget* w);
 
 		virtual void CallbackCursorPosition(const glm::ivec2 &point);
 		virtual void CallbackMouseButton(int button, int action, int mods);
 		virtual void CallbackWindowResized(int width, int height);
 		virtual void CallbackFramebufferResized(int width, int height);
+		virtual void CallbackKey(int key, int scancode, int action, int mods);
+		virtual void CallbackCharMods(unsigned int ch, int mods);
 
 		inline NVGcontext* GetNVG() { return m_nvg; } //TODO: Get rid of this function
 

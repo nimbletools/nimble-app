@@ -108,6 +108,17 @@ namespace na
 		virtual void OnMouseMove(const glm::ivec2 &point);
 		virtual void OnMouseUp(int button, const glm::ivec2 &point);
 
+		virtual bool HasFocus();
+		virtual bool CanHaveFocus();
+		virtual void SetFocus();
+		virtual void OnFocus();
+		virtual void OnFocusLost();
+
+		virtual void OnKeyDown(int key, int scancode, int mods);
+		virtual void OnKeyPress(int key, int scancode, int mods);
+		virtual void OnKeyUp(int key, int scancode, int mods);
+		virtual void OnChar(unsigned int ch, int mods);
+
 		inline const s2::list<Widget*> &GetChildren() { return m_children; }
 		virtual void AddChild(Widget* child);
 
