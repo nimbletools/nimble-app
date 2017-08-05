@@ -7,6 +7,7 @@
 #include "widgets/page.h"
 
 struct GLFWwindow;
+struct GLFWcursor;
 struct lay_context;
 struct NVGcontext;
 
@@ -22,6 +23,15 @@ namespace na
 		GLFWwindow* m_window = nullptr;
 		NVGcontext* m_nvg = nullptr;
 
+		GLFWcursor* m_cursorArrow = nullptr;
+		GLFWcursor* m_cursorIbeam = nullptr;
+		GLFWcursor* m_cursorCrosshair = nullptr;
+		GLFWcursor* m_cursorHand = nullptr;
+		GLFWcursor* m_cursorHResize = nullptr;
+		GLFWcursor* m_cursorVResize = nullptr;
+
+		Cursor m_currentCursor = Cursor::Arrow;
+
 		bool m_initializedLayout = false;
 		bool m_initializedRendering = false;
 		bool m_initializedWindow = false;
@@ -31,6 +41,7 @@ namespace na
 
 		bool m_invalidatedLayout = true;
 		bool m_invalidatedRendering = true;
+		bool m_invalidatedCursor = true;
 
 		glm::ivec2 m_windowSize;
 		glm::ivec2 m_bufferSize;
@@ -50,6 +61,7 @@ namespace na
 		virtual void Run();
 		virtual void DoLayout();
 		virtual void Draw();
+		virtual void UpdateCursor();
 		virtual void Frame();
 
 		virtual void OnLoad();
@@ -64,6 +76,7 @@ namespace na
 		virtual bool IsInvalidated();
 		virtual void InvalidateLayout();
 		virtual void InvalidateRendering();
+		virtual void InvalidateCursor();
 
 		virtual void HandleHoverWidgets(Widget* w, const glm::ivec2 &point);
 		virtual void InvalidateInputWidgets();

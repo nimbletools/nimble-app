@@ -52,6 +52,16 @@ namespace na
 		AnchorFill = AnchorLeft | AnchorRight | AnchorTop | AnchorBottom,
 	};
 
+	enum class Cursor
+	{
+		Arrow,
+		Ibeam,
+		Crosshair,
+		Hand,
+		HResize,
+		VResize,
+	};
+
 	class Widget
 	{
 		//TODO: Add ref count
@@ -65,6 +75,8 @@ namespace na
 		s2::string m_id;
 		s2::string m_class;
 		bool m_visible = true;
+
+		Cursor m_cursor = Cursor::Arrow;
 
 		s2::list<Widget*> m_children;
 
@@ -140,6 +152,9 @@ namespace na
 
 		inline bool IsVisible() { return m_visible; }
 		virtual void SetVisible(bool visible);
+
+		inline Cursor GetCursor() { return m_cursor; }
+		virtual void SetCursor(Cursor cursor);
 
 		inline WidgetDirection GetLayoutDirection() { return m_layDir; }
 		virtual void SetLayoutDirection(WidgetDirection dir);

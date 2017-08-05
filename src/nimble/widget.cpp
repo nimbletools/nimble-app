@@ -152,6 +152,21 @@ void na::Widget::Load(ContentNode &node)
 	SetLayoutWrapping(node.GetBool("wrapping", false, m_layWrap));
 
 	SetMargin(node.GetBounds("margin", false, m_margin));
+
+	s2::string cursor = node.GetString("cursor", false);
+	if (cursor == "" || cursor == "arrow") {
+		SetCursor(Cursor::Arrow);
+	} else if (cursor == "ibeam") {
+		SetCursor(Cursor::Ibeam);
+	} else if (cursor == "crosshair") {
+		SetCursor(Cursor::Crosshair);
+	} else if (cursor == "hand") {
+		SetCursor(Cursor::Hand);
+	} else if (cursor == "hresize") {
+		SetCursor(Cursor::HResize);
+	} else if (cursor == "vresize") {
+		SetCursor(Cursor::VResize);
+	}
 }
 
 void na::Widget::DoLayout(lay_context* l, lay_id parent)
@@ -312,6 +327,14 @@ void na::Widget::SetVisible(bool visible)
 		InvalidateLayout();
 	}
 	m_visible = visible;
+}
+
+void na::Widget::SetCursor(Cursor cursor)
+{
+	if (m_cursor != cursor) {
+		m_app->InvalidateCursor();
+	}
+	m_cursor = cursor;
 }
 
 void na::Widget::SetLayoutDirection(WidgetDirection dir)

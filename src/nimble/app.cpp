@@ -185,6 +185,32 @@ void na::Application::Draw()
 	glfwSwapBuffers(m_window);
 }
 
+void na::Application::UpdateCursor()
+{
+	if (m_hoveringWidgets.len() == 0) {
+		m_currentCursor = Cursor::Arrow;
+		glfwSetCursor(m_window, nullptr);
+		return;
+	}
+
+	Cursor cursor = m_hoveringWidgets.top()->GetCursor();
+	if (m_currentCursor == cursor) {
+		return;
+	}
+
+	GLFWcursor* p = nullptr;
+	switch (cursor) {
+	case Cursor::Arrow: p = m_cursorArrow; break;
+	case Cursor::Ibeam: p = m_cursorIbeam; break;
+	case Cursor::Crosshair: p = m_cursorCrosshair; break;
+	case Cursor::Hand: p = m_cursorHand; break;
+	case Cursor::HResize: p = m_cursorHResize; break;
+	case Cursor::VResize: p = m_cursorVResize; break;
+	}
+	m_currentCursor = cursor;
+	glfwSetCursor(m_window, p);
+}
+
 void na::Application::Frame()
 {
 	HandlePageQueue();
@@ -198,6 +224,11 @@ void na::Application::Frame()
 	if (m_invalidatedRendering) {
 		m_invalidatedRendering = false;
 		Draw();
+	}
+
+	if (m_invalidatedCursor) {
+		m_invalidatedCursor = false;
+		UpdateCursor();
 	}
 }
 
@@ -267,6 +298,11 @@ void na::Application::InvalidateRendering()
 	m_invalidatedRendering = true;
 }
 
+void na::Application::InvalidateCursor()
+{
+	m_invalidatedCursor = true;
+}
+
 void na::Application::HandleHoverWidgets(Widget* w, const glm::ivec2 &point)
 {
 	if (!w->Contains(point)) {
@@ -274,6 +310,7 @@ void na::Application::HandleHoverWidgets(Widget* w, const glm::ivec2 &point)
 	}
 
 	if (!w->IsHovering()) {
+		InvalidateCursor();
 		m_hoveringWidgets.add(w);
 		w->OnMouseEnter();
 	}
@@ -289,6 +326,7 @@ void na::Application::InvalidateInputWidgets()
 		w->OnMouseLeave();
 	}
 	m_hoveringWidgets.clear();
+	InvalidateCursor();
 
 	SetFocusWidget(nullptr);
 }
@@ -320,6 +358,8 @@ void na::Application::CallbackCursorPosition(const glm::ivec2 &point)
 
 		w->OnMouseLeave();
 		m_hoveringWidgets.remove(i);
+
+		InvalidateCursor();
 	}
 
 	for (int i = m_pages.len() - 1; i >= 0; i--) {
@@ -337,7 +377,7 @@ void na::Application::CallbackMouseButton(int button, int action, int mods)
 		return;
 	}
 
-	Widget* w = m_hoveringWidgets[m_hoveringWidgets.len() - 1];
+	Widget* w = m_hoveringWidgets.top();
 	if (action == GLFW_PRESS) {
 		w->OnMouseDown(button, w->ToRelativePoint(m_lastCursorPos));
 		if (w->CanHaveFocus()) {
@@ -435,6 +475,13 @@ void na::Application::InitializeWindow()
 	glfwSetKeyCallback(m_window, key_callback);
 	glfwSetCharModsCallback(m_window, char_mods_callback);
 	glfwMakeContextCurrent(m_window);
+
+	m_cursorArrow = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+	m_cursorIbeam = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
+	m_cursorCrosshair = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
+	m_cursorHand = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+	m_cursorHResize = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
+	m_cursorVResize = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK) {

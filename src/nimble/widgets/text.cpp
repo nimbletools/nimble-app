@@ -100,6 +100,8 @@ void na::TextWidget::Load(ContentNode &node)
 {
 	Widget::Load(node);
 
+	SetCursor(Cursor::Ibeam);
+
 	if (m_font != nullptr) {
 		SetFont(node.GetString("font", false, m_font->Filename));
 	} else {
