@@ -25,6 +25,20 @@ int na::Font::GetHandle()
 	return m_handle;
 }
 
+float na::Font::GetNextGlyphOffset(const char* pch, float size)
+{
+	NVGcontext* vg = m_app->GetNVG();
+
+	BeginMeasureMode(size);
+
+	NVGglyphPosition pos[2];
+	nvgTextGlyphPositions(vg, 0, 0, pch, nullptr, pos, 2);
+
+	EndMeasureMode();
+
+	return pos[1].x;
+}
+
 glm::vec2 na::Font::Measure(const s2::string &text, float size)
 {
 	NVGcontext* vg = m_app->GetNVG();
@@ -53,9 +67,14 @@ void na::Font::BeginMeasureMode(float size)
 
 glm::vec2 na::Font::MeasureNow(const s2::string &text)
 {
+	return MeasureNow(text, text.len());
+}
+
+glm::vec2 na::Font::MeasureNow(const s2::string &text, int len)
+{
 	NVGcontext* vg = m_app->GetNVG();
 	float bounds[4];
-	nvgTextBounds(vg, 0, 0, text, nullptr, bounds);
+	nvgTextBounds(vg, 0, 0, text, (const char*)text + len, bounds);
 	return glm::vec2(bounds[2], bounds[3]);
 }
 

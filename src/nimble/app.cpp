@@ -341,7 +341,9 @@ void na::Application::CallbackMouseButton(int button, int action, int mods)
 	if (action == GLFW_PRESS) {
 		w->OnMouseDown(button, w->ToRelativePoint(m_lastCursorPos));
 		if (w->CanHaveFocus()) {
-			SetFocusWidget(w);
+			if (!w->HasFocus()) {
+				SetFocusWidget(w);
+			}
 		} else {
 			SetFocusWidget(nullptr);
 		}

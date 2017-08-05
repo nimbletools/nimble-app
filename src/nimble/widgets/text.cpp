@@ -43,19 +43,12 @@ static float TES_GetWidth(na::TextWidget* obj, int n, int i)
 	// Here, `n` is the position within the string that this row starts at
 	// We return the pixel distance between char (n + i) and (n + i + 1)
 
-	//TODO: Current implementation is probably inaccurate
 	//TODO: If this is a monospaced font, we could just return some constant
 
 	na::Font* font = obj->GetFont();
-	s2::string text = obj->GetText().substr(n, i + 1);
+	const char* sz = obj->GetText();
 
-	assert(font != nullptr);
-
-	glm::vec2 sizeSecond = font->MeasureNow(text);
-	text[text.len() - 1] = '\0';
-	glm::vec2 sizeFirst = font->MeasureNow(text);
-
-	return sizeSecond.x - sizeFirst.x;
+	return font->GetNextGlyphOffset(sz + n + i, obj->GetFontSize());
 }
 
 static bool TES_InsertChars(na::TextWidget* obj, int i, const char* sz, int n)
@@ -85,7 +78,7 @@ static bool TES_InsertChars(na::TextWidget* obj, int i, const char* sz, int n)
 #define STB_TEXTEDIT_K_BACKSPACE  STB_TEXTEDIT_K_KEYDOWN | GLFW_KEY_BACKSPACE
 #define STB_TEXTEDIT_K_UNDO       STB_TEXTEDIT_K_KEYDOWN | STB_TEXTEDIT_K_CONTROL | GLFW_KEY_Z
 #define STB_TEXTEDIT_K_REDO       STB_TEXTEDIT_K_KEYDOWN | STB_TEXTEDIT_K_CONTROL | GLFW_KEY_Y
-//#define STB_TEXTEDIT_K_INSERT     STB_TEXTEDIT_K_KEYDOWN | GLFW_KEY_INSERT
+#define STB_TEXTEDIT_K_INSERT     STB_TEXTEDIT_K_KEYDOWN | GLFW_KEY_INSERT
 #define STB_TEXTEDIT_K_WORDLEFT   STB_TEXTEDIT_K_KEYDOWN | STB_TEXTEDIT_K_CONTROL | GLFW_KEY_LEFT
 #define STB_TEXTEDIT_K_WORDRIGHT  STB_TEXTEDIT_K_KEYDOWN | STB_TEXTEDIT_K_CONTROL | GLFW_KEY_RIGHT
 
@@ -128,6 +121,7 @@ void na::TextWidget::Load(ContentNode &node)
 
 	//TODO: Invalidate text edit state when SetMultiline is called?
 	stb_textedit_initialize_state(&m_textEditState, m_multiline ? 1 : 0);
+	memcpy(&m_textEditStatePrev, &m_textEditState, sizeof(STB_TexteditState));
 }
 
 void na::TextWidget::DoLayout(lay_context* l, lay_id parent)
@@ -161,6 +155,8 @@ void na::TextWidget::Draw(NVGcontext* vg)
 			nvgStrokeColor(vg, nvgRGBAf(0.2f, 0.2f, 1.0f, 1.0f));
 			nvgStroke(vg);
 		}
+
+		nvgClosePath(vg);
 	}
 
 	if (m_colorText.a > 0.0f) {
@@ -168,19 +164,89 @@ void na::TextWidget::Draw(NVGcontext* vg)
 
 		nvgFontFaceId(vg, m_font->GetHandle());
 		nvgFontSize(vg, m_fontSize);
-		nvgFillColor(vg, nvgRGBAf(m_colorText.r, m_colorText.g, m_colorText.b, m_colorText.a));
-
-		float breakWidth = 99999.0f;
-		if (m_multiline) {
-			breakWidth = (float)rect.z;
-		}
 		nvgTextAlign(vg, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
-		nvgTextBox(vg, (float)rect.x, (float)rect.y, breakWidth, m_text, nullptr);
+
+		float cursorX = 0;
+		float cursorY = 0;
+		float cursorWidth = 0;
+		float selStartX = 0;
+		float selEndX = 0;
+
+		float lastX = 0;
+		const int numPos = 10;
+		NVGglyphPosition pos[numPos + 1];
+		for (int i = 0; i < (int)m_text.len(); i += numPos) {
+			int npos = nvgTextGlyphPositions(vg, lastX, 0, (const char*)m_text + i, nullptr, pos, numPos + 1);
+
+			int cursorIndex = m_textEditState.cursor - i;
+			if (cursorIndex <= numPos && cursorIndex >= 0) {
+				if (cursorIndex == npos) {
+					cursorX = pos[cursorIndex - 1].maxx;
+					cursorWidth = 0;
+				} else {
+					cursorX = pos[cursorIndex].x;
+					cursorWidth = pos[cursorIndex].maxx - cursorX;
+				}
+			}
+
+			int selStartIndex = m_textEditState.select_start - i;
+			if (selStartIndex <= numPos && selStartIndex >= 0) {
+				if (selStartIndex == npos) {
+					selStartX = pos[selStartIndex - 1].maxx;
+				} else {
+					selStartX = pos[selStartIndex].x;
+				}
+			}
+
+			int selEndIndex = m_textEditState.select_end - i;
+			if (selEndIndex <= numPos && selEndIndex >= 0) {
+				if (selEndIndex == npos) {
+					selEndX = pos[selEndIndex - 1].maxx;
+				} else {
+					selEndX = pos[selEndIndex].x;
+				}
+			}
+
+			lastX = pos[numPos].x;
+		}
+
+		nvgFillColor(vg, nvgRGBAf(m_colorSelection.r, m_colorSelection.g, m_colorSelection.b, m_colorSelection.a));
+		nvgBeginPath(vg);
+		nvgRect(vg, (float)rect.x + selStartX, (float)rect.y, selEndX - selStartX, m_fontSize);
+		nvgFill(vg);
+		nvgClosePath(vg);
+
+		nvgFillColor(vg, nvgRGBAf(m_colorText.r, m_colorText.g, m_colorText.b, m_colorText.a));
+		nvgText(vg, (float)rect.x, (float)rect.y, m_text, nullptr);
+
+		if (HasFocus()) {
+			nvgBeginPath(vg);
+
+			if (m_textEditState.insert_mode == 0 || cursorWidth == 0) {
+				// Insert mode
+				nvgRect(vg, rect.x + cursorX, rect.y + cursorY, 1, m_fontSize);
+			} else {
+				// Overwrite mode
+				nvgRect(vg, rect.x + cursorX, rect.y + cursorY + m_fontSize, cursorWidth, 1);
+			}
+
+			nvgFill(vg);
+			nvgClosePath(vg);
+		}
 	}
 
 	nvgRestore(vg);
 
 	Widget::Draw(vg);
+}
+
+void na::TextWidget::CheckTextEditStateChanged()
+{
+	if (memcmp(&m_textEditStatePrev, &m_textEditState, sizeof(STB_TexteditState) - sizeof(StbUndoState)) == 0) {
+		return;
+	}
+	memcpy(&m_textEditStatePrev, &m_textEditState, sizeof(STB_TexteditState) - sizeof(StbUndoState));
+	InvalidateRendering();
 }
 
 void na::TextWidget::OnMouseDown(int button, const glm::ivec2 &point)
@@ -194,6 +260,7 @@ void na::TextWidget::OnMouseDown(int button, const glm::ivec2 &point)
 		stb_textedit_click(this, &m_textEditState, (float)point.x, (float)point.y);
 
 		m_font->EndMeasureMode();
+		CheckTextEditStateChanged();
 	}
 }
 
@@ -207,6 +274,7 @@ void na::TextWidget::OnMouseMove(const glm::ivec2 &point)
 		stb_textedit_drag(this, &m_textEditState, (float)point.x, (float)point.y);
 
 		m_font->EndMeasureMode();
+		CheckTextEditStateChanged();
 	}
 }
 
@@ -251,6 +319,7 @@ void na::TextWidget::OnKeyPress(int key, int scancode, int mods)
 	stb_textedit_key(this, &m_textEditState, key);
 
 	m_font->EndMeasureMode();
+	CheckTextEditStateChanged();
 }
 
 void na::TextWidget::OnChar(unsigned int ch, int mods)
@@ -264,6 +333,7 @@ void na::TextWidget::OnChar(unsigned int ch, int mods)
 	stb_textedit_key(this, &m_textEditState, (int)ch);
 
 	m_font->EndMeasureMode();
+	CheckTextEditStateChanged();
 }
 
 void na::TextWidget::SetText(const s2::string &text)
@@ -272,6 +342,9 @@ void na::TextWidget::SetText(const s2::string &text)
 		InvalidateRendering();
 	}
 	m_text = text;
+
+	stb_textedit_clamp(this, &m_textEditState);
+	CheckTextEditStateChanged();
 }
 
 void na::TextWidget::SetFont(const s2::string &name)
@@ -315,6 +388,14 @@ void na::TextWidget::SetTextColor(const glm::vec4 &color)
 	m_colorText = color;
 }
 
+void na::TextWidget::SetSelectionColor(const glm::vec4 &color)
+{
+	if (m_colorSelection != color) {
+		InvalidateRendering();
+	}
+	m_colorSelection = color;
+}
+
 void na::TextWidget::SetMultiline(bool multiline)
 {
 	if (m_multiline != multiline) {
@@ -334,6 +415,5 @@ bool na::TextWidget::InsertChars(int i, const char* sz, int num)
 {
 	m_text.insert(sz, i, num);
 	InvalidateRendering();
-	printf("Text: \"%s\"", m_text.c_str());
 	return true;
 }

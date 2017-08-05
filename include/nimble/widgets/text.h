@@ -14,12 +14,14 @@ namespace na
 	private:
 		s2::string m_text;
 		Font* m_font = nullptr;
-		float m_fontSize = 16.0f;
+		float m_fontSize = 20.0f;
 		glm::ivec2 m_size;
 		glm::vec4 m_color = glm::vec4(0, 0, 0, 1);
 		glm::vec4 m_colorText = glm::vec4(1, 1, 1, 1);
+		glm::vec4 m_colorSelection = glm::vec4(0.2f, 0.2f, 1, 1);
 		bool m_multiline = false;
 
+		STB_TexteditState m_textEditStatePrev;
 		STB_TexteditState m_textEditState;
 		bool m_dragging = false;
 
@@ -31,6 +33,8 @@ namespace na
 
 		virtual void DoLayout(lay_context* l, lay_id parent);
 		virtual void Draw(NVGcontext* vg);
+
+		virtual void CheckTextEditStateChanged();
 
 		virtual void OnMouseDown(int button, const glm::ivec2 &point);
 		virtual void OnMouseMove(const glm::ivec2 &point);
@@ -60,6 +64,9 @@ namespace na
 
 		inline const glm::vec4 &GetTextColor() { return m_colorText; }
 		virtual void SetTextColor(const glm::vec4 &color);
+
+		inline const glm::vec4 &GetSelectionColor() { return m_colorSelection; }
+		virtual void SetSelectionColor(const glm::vec4 &color);
 
 		inline bool IsMultiline() { return m_multiline; }
 		virtual void SetMultiline(bool multiline);
