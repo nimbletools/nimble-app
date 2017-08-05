@@ -114,6 +114,7 @@ void na::TextWidget::Load(ContentNode &node)
 
 	SetColor(node.GetColor("color", false, m_color));
 	SetTextColor(node.GetColor("textcolor", false, m_colorText));
+	SetSelectionColor(node.GetColor("selectioncolor", false, m_colorSelection));
 
 	SetMultiline(node.GetBool("multiline", false, m_multiline));
 

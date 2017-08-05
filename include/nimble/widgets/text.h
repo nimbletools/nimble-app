@@ -14,7 +14,7 @@ namespace na
 	private:
 		s2::string m_text;
 		Font* m_font = nullptr;
-		float m_fontSize = 20.0f;
+		float m_fontSize = 16.0f;
 		glm::ivec2 m_size;
 		glm::vec4 m_color = glm::vec4(0, 0, 0, 1);
 		glm::vec4 m_colorText = glm::vec4(1, 1, 1, 1);

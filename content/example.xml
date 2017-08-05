@@ -11,6 +11,6 @@
 	</vbox>
 
 	<hbox id="container" wrapping="true" anchor="fill" margin="5">
-		<text font="content/Roboto.ttf" width="400" height="26" />
+		<text font="content/Roboto.ttf" fontsize="20" width="100" height="26" />
 	</hbox>
 </hbox>
